@@ -1,0 +1,321 @@
+% -*- latex -*-
+\NeedsTeXFormat{pLaTeX2e}[2001/09/04]
+\ProvidesPackage{archlab}[2008/07/29, hayashi, tkobaya, 20010/02/07, iritani]
+
+% usage:
+% \documentclass[12pt,oneside,openany]{jsbook}
+% \usepackage[bthesis]{salab} or
+% \usepackage[mthesis]{salab} or
+% \usepackage[phdthesis]{salab}
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{amsmath}
+%\RequirePackage{times} % txfonts を呼んでいるので不要（のはず）
+%\RequirePackage[psamsfonts]{amssymb} % txfonts を呼んでいるので不要（のはず）
+\RequirePackage{txfonts} % amsmath の後に呼ぶこと
+\RequirePackage[dvips]{graphicx}
+\RequirePackage{fancyhdr}
+%%
+%% PDF のタイトル，しおり，リンクなど
+%%
+
+% PDF の文字化けを防ぐ
+% \AtBeginDvi を使うやり方はもう古い（タイトル等が化ける）
+\RequirePackage{atbegshi}
+\ifnum 42146=\euc"A4A2 % EUC/JIS env.
+  \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}
+\else                  % SJIS env.
+  \AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+\fi
+
+% nameref -> titleref -> hyperref の順に読み込むこと
+\RequirePackage{nameref}
+\RequirePackage{titleref}
+\RequirePackage[%
+  dvipdfm,%
+  bookmarks=true,%
+  bookmarksnumbered=true,%
+  bookmarkstype=toc,%
+  bookmarksopen=true,%
+%  pdfstartview={FitBH -32768},% 幅に合わせて拡大
+  pdfdisplaydoctitle=true% タイトルバーに \title を表示
+%  pdfsubject={},%
+%  pdftitle={\@title},% タイトル
+%  pdfauthor={{\@author}},%
+%  pdfkeywords={},%
+%  colorlinks={true},%
+%  urlcolor={red}
+]{hyperref}
+
+\def\pdfsetup{%
+  \hypersetup{%
+    pdftitle={\@title},% タイトル
+    pdfauthor={{\@author}}% 作成者
+  }%
+}
+
+%%
+%% 入力の定義
+%%
+\def\nendo#1{\gdef\@nendo{#1}}
+\def\authorintitle#1{\gdef\@authorintitle{#1}}
+\def\advisor#1{\gdef\@advisor{#1}}
+\def\post#1{\gdef\@post{#1}}
+\def\affiliation#1{\gdef\@affiliation{#1}}
+\def\studentid#1{\gdef\@studentid{#1}}
+\long\def\kougai#1{\gdef\@kougai{#1}}
+
+%%
+%% タイトルページ
+%%
+\def\titechlogo{{\normalsize\sc
+  \includegraphics[width=4cm, clip]{logo.eps}\\\vspace{-\baselineskip}\vspace{-30.2mm}%{[width=1cm], vspace-5.2mm}
+  \hspace{36mm}Tokyo Institute of Technology\\\vspace{-1\baselineskip}\vspace{2.8mm}%{hspace{12mm}}
+  \hspace{36mm}Department of Computer Science%%{hspace{12mm}}
+}}
+\renewcommand{\maketitle}{
+  \begin{titlepage}
+    \setlength\topmargin{\paperheight}
+    \addtolength\topmargin{-1.5\textheight}
+    \titechtitle
+    \include{title}
+    \pdfsetup
+  \end{titlepage}
+  \setcounter{page}{0}
+}
+
+%%
+%% オプション
+%%
+\newcommand{\TODO}[1]{}
+\newcommand{\TS}[1]{#1}
+
+\DeclareOption{draft}{
+  \AtEndOfPackage{
+    \RequirePackage[color]{showkeys}
+    \RequirePackage{udline}
+  }
+  \renewcommand{\TODO}[1]{{\bf [TODO: #1]}}
+  \renewcommand{\TS}[1]{\ul{#1}}
+}
+
+%%
+%% 学士論文
+%%
+\DeclareOption{bthesis}{%
+    \def\titechtitle{{\LARGE
+        % \addtolength\topmargin{0.05\textheight}
+        \addtolength\topmargin{5zw}
+        \vspace{-15mm} % \vspace{-13mm}
+        \begin{center} 東京工業大学工学部\\
+        \vspace{7mm}
+        学士論文\\
+        \vspace{0mm}
+        \ \\
+        \fbox{
+            \begin{tabular}{c}
+                \@title
+            \end{tabular}
+        } \\
+        \vspace{10mm}
+        指導教員\hspace{1zw}\@advisor\hspace{1zw}\@post\\
+        \vspace{8mm}
+        \@date\\
+        \vspace{9mm}
+        提出者\\
+        \vspace{3mm}
+        \begin{tabular}{ll}
+            \vspace{2mm}学科 & \@affiliation \\
+            \vspace{2mm}学籍番号 \hspace{3mm} & \@studentid \\
+            \vspace{2mm}氏名 & \@ifundefined{@authorintitle}{\@author}{\@authorintitle} \\
+        \end{tabular}
+        \begin{flushright}
+            \begin{tabular}{|l|p{20mm}|}
+                \hline & \\
+                \raisebox{2ex}{\hspace{3mm} \Large 指導教員　　印 \hspace{3mm}} & \\ \hline
+            \end{tabular}
+        \end{flushright}
+        %\vspace{3mm}
+        \begin{flushright}
+            \begin{tabular}{|l|p{20mm}|}
+                \hline & \\
+                \raisebox{2ex}{\hspace{3mm} \Large 学科長　認定印 \hspace{3mm}} & \\ \hline
+            \end{tabular}
+        \end{flushright}
+    \end{center}}
+
+    \newpage
+    \thispagestyle{empty}
+    \addtolength\topmargin{5zw}
+    \let\footnotesize\small \let\footnoterule\relax \setcounter{page}{0}
+    \begin{flushleft}
+        \@nendo\hspace{1zw}学士論文内容梗概
+    \end{flushleft}
+    \begin{center}
+        \Large \@title
+    \end{center}
+    %\vspace{1zw}
+    \begin{flushright}
+        \begin{tabular}{l}
+            指導教員\hspace{1zw}\@advisor\hspace{1zw}\@post \\
+            \@affiliation \\
+            \@studentid\hspace{1zw}\@author \\
+        \end{tabular}
+    \end{flushright}
+    \vspace{1zw}
+    \ \
+    \@kougai
+    \setcounter{footnote}{0} \let\thanks\relax
+    \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\let\maketitle\relaxtitle}
+}
+
+%%
+%% 修士論文
+%%
+\DeclareOption{mthesis}{%
+  \def\titechtitle{
+    \begin{flushleft}\titechlogo\end{flushleft}
+    \vspace{4zw}
+    \center
+    {\Large
+      \@ifundefined{@nendo}{}{\@nendo 年度 }{\LARGE 修士論文}\\\vspace{2zw}
+      {\LARGE 
+        \begin{tabular}{|c|}\hline
+          \@title \\ \hline
+      \end{tabular}
+      }
+      \\\vspace{5zw}
+      \@ifundefined{@advisor}{}{指導教員: \@advisor\vspace{1zw}\@post\\\vspace{1zw}}
+      \@ifundefined{@date}{}{\@date\\ \vspace{6zw}}
+      {\LARGE 提出者}\\\vspace{1zw}
+      {\Large \@ifundefined{@affiliation}{}{\@affiliation\\\vspace{1zw}}}
+      {\LARGE \@ifundefined{@studentid}{}{\@studentid\hspace{1zw}}}
+      {\LARGE \@ifundefined{@authorintitle}{\@author}{\@authorintitle}}
+    }
+  }
+}
+
+%%
+%% 博士論文
+%%
+\DeclareOption{dthesis}{%
+  \def\titechtitle{
+    \begin{flushleft}\titechlogo\end{flushleft}
+    \vspace{6zw}
+    \center
+    {\Large
+      \@ifundefined{@nendo}{}{\@nendo 年度 }学位論文\\\vspace{1zw}
+      {\Huge \@title}\\\vspace{16zw}
+      \@ifundefined{@affiliation}{}{\@affiliation\\\vspace{1zw}}
+      {\huge \@ifundefined{@authorintitle}{\@author}{\@authorintitle}}\\\vspace{2zw}
+      \@ifundefined{@date}{}{\@date}
+    }
+  }
+}
+
+%%
+%% 余白
+%%
+
+% 上の余白が大きすぎるので変更
+\setlength\textheight{.80\paperheight}
+\addtolength\textheight{-\topskip}
+\addtolength\textheight{-\headsep}
+\addtolength\textheight{-\footskip}
+\addtolength\textheight{-\topskip}
+\divide\textheight\baselineskip
+\multiply\textheight\baselineskip
+\addtolength\textheight{\topskip}
+\addtolength\textheight{.1\p@}
+
+\setlength\topmargin{\paperheight}
+\addtolength\topmargin{-\textheight}
+\addtolength\topmargin{-\topskip}
+\addtolength\topmargin{-\headsep}
+\addtolength\topmargin{-\footskip}
+\setlength\topmargin{.5\topmargin}
+\iftombow
+  \addtolength\topmargin{-1in}
+\else
+  \addtolength\topmargin{-1.5truein}
+\fi
+
+% 左右の余白が小さすぎるので変更
+\setlength\fullwidth{.75\paperwidth}
+\setlength\textwidth{\fullwidth}
+\setlength\oddsidemargin{\paperwidth}
+\addtolength\oddsidemargin{-\fullwidth}
+\setlength\oddsidemargin{.5\oddsidemargin}
+\iftombow
+  \addtolength\oddsidemargin{-1in}
+\else
+  \addtolength\oddsidemargin{-1truein}
+\fi
+\setlength\evensidemargin{\oddsidemargin}
+
+%\addtolength\oddsidemargin{1.5zw}
+%\addtolength\evensidemargin{-1.5zw}
+
+% 目次では subsection まで表示
+\setcounter{tocdepth}{2}
+
+% 西暦ではなく元号を使用
+\和暦
+
+% 章などの欧文をセリフのボールドに
+\def\headfont{\bfseries}
+
+% ヘッダーのカスタマイズ
+%\pagestyle{headings}
+\makeatletter
+\def\ps@plain{%
+  \let\@mkboth \@gobbletwo
+  \def\@oddhead{\reset@font \hfil \thepage}%
+  \let\@oddfoot \@empty
+  \let\@evenhead \@empty
+  \let\@evenfoot \@oddfoot
+}
+
+\def\ps@myheadings{%
+   \let\@oddfoot\@empty
+   \let\@evenfoot\@empty
+   \def\@evenhead{\underline{\hb@xt@ \textwidth{\leftmark \hfil \thepage}}}%
+   \def\@oddhead{\underline{\hb@xt@ \textwidth{\rightmark \hfil \thepage}}}%
+   \let\@mkboth \@gobbletwo
+   \let\chaptermark \@gobbletwo
+%   \let\sectionmark \@gobble
+    \let\subsectionmark \@gobble % article 系
+    \let\@mkboth \markboth
+
+    \def\chaptermark##1{%
+   \markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+         \if@mainmatter
+            第 \thechapter 章\hskip 1zw
+         \fi
+      \fi
+      ##1}{}%
+    }
+    \def\sectionmark##1{%
+      \markright{%
+        \ifnum \c@secnumdepth >\z@
+        \if@mainmatter
+        \thesection \hskip 1zw
+        \fi
+        \fi
+        ##1}%
+    }%
+  
+}
+\def\toprule{\hline\hline}
+\pagestyle{myheadings}
+\makeatother
+
+%\fancyhead[LE]{第 \thechapter 章}
+%\fancyhead[RE]{\it \thepage}
+%\fancyhead[LO]{\rightmark}
+%\fancyhead[RO]{{\it \thepage}}
+%\cfoot{}
+
+\ExecuteOptions{mthesis}
+\ProcessOptions
