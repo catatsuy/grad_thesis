@@ -1,0 +1,99 @@
+\documentclass[12pt,openany,papersize,]{jsbook}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{calc}
+\usepackage[sc]{mathpazo}
+\usepackage[scaled]{helvet}
+\usepackage[scaled]{beramono}
+\usepackage[bold]{otf}
+\usepackage[final]{listings}
+\usepackage[bthesis]{archlab}
+% \AtBeginDvi{\special{papersize=210truemm,297truemm}}
+\graphicspath{{img/}}
+\usepackage{textcomp,mediabb,okumacro}
+\newcommand{\figref}[1]{\textbf{図}\ref{#1}}
+\newcommand{\tabref}[1]{\textbf{表}\ref{#1}}
+\usepackage[final]{listings}
+\lstset{                 %listingsの設定
+numbers=left,            %行番号を左
+numberstyle=\scriptsize, %
+stepnumber=1,            %1行おきに行番号を
+numbersep=1zw,           %ソースと行番号の間隔
+lineskip=-0.5zw,         %行間隔 要調整
+basicstyle=\ttfamily,     %ttfamily
+xleftmargin=15pt,
+}
+\usepackage{jlisting}
+%\newcommand{\unit}[1]{\ifmmode\mathrm{\,[#1]}\else $\mathrm{[#1]}$\fi}%単位に使用 数式中では空白を本文中では空白なし
+\title{Research on High-speed Logic Simulation for Computer Architectures}
+\authorintitle{金子~達哉}
+\nendo{平成 25 年度}
+\studentid{09\_06410}
+\advisor{吉瀬 謙二}
+\affiliation{情報工学科}
+\post{准教授}
+
+\kougai{\input{abstract}}
+
+\setcounter{tocdepth}{3}
+
+\title{Research on High-speed Logic Simulation \\ for Computer Architectures}
+\author{金子達哉}
+\date{平成 25 年 8 月}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{序論（2）}
+
+\input{intro}
+
+\if0 \chapter{ハードウェア記述言語の抽象度} \fi
+
+\chapter{ArchHDL の概要（10）}
+
+\label{c:summary}
+
+\input{summary}
+
+\chapter{ArchHDL の高速化手法の提案と実装（8）}
+
+\label{c:method}
+
+\input{method}
+
+\chapter{評価（10）}
+
+\label{c:evaluation}
+
+\input{evaluation}
+
+\chapter{関連研究（2）}
+
+\chapter{結論（2）}
+
+\label{c:conclusion}
+
+\input{conclusion}
+
+\backmatter
+
+\chapter{謝辞}
+
+\label{c:acknowledgment}
+
+\input{acknowledgment}
+
+\label{c:relatedwork}
+
+\input{relatedwork}
+
+\end{document}
