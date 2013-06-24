@@ -12,9 +12,9 @@
 \RequirePackage{amsmath}
 %\RequirePackage{times} % txfonts を呼んでいるので不要（のはず）
 %\RequirePackage[psamsfonts]{amssymb} % txfonts を呼んでいるので不要（のはず）
-\RequirePackage{txfonts} % amsmath の後に呼ぶこと
-\RequirePackage[dvips]{graphicx}
-\RequirePackage{fancyhdr}
+%% \RequirePackage{txfonts} % amsmath の後に呼ぶこと
+\RequirePackage[dvipdfmx]{graphicx}
+%% \RequirePackage{fancyhdr}
 %%
 %% PDF のタイトル，しおり，リンクなど
 %%
@@ -106,7 +106,7 @@
     \def\titechtitle{{\LARGE
         % \addtolength\topmargin{0.05\textheight}
         \addtolength\topmargin{5zw}
-        \vspace{-15mm} % \vspace{-13mm}
+        \vspace{-13mm} % \vspace{-13mm}
         \begin{center} 東京工業大学工学部\\
         \vspace{7mm}
         学士論文\\
@@ -129,6 +129,7 @@
             \vspace{2mm}学籍番号 \hspace{3mm} & \@studentid \\
             \vspace{2mm}氏名 & \@ifundefined{@authorintitle}{\@author}{\@authorintitle} \\
         \end{tabular}
+        \vspace{-1mm}
         \begin{flushright}
             \begin{tabular}{|l|p{20mm}|}
                 \hline & \\
