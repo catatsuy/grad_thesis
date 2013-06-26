@@ -26,6 +26,20 @@ reg クラスのインスタンスの更新頻度が低い回路であればこ�
 次サイクルに移る前に next\_ の値を curr\_ に常に代入するようにする．
 こうすることによって分岐のオーバーヘッドが無くなるため，ノン・ブロッキング代入が頻繁に行われる回路で速度向上が期待できる．
 
+% SWoPP より追加
+
+\begin{figure}[tb]
+ \lstinputlisting[language=c++]{src/reg_no_set.cc}
+ \caption{条件分岐を除去した reg クラス}
+ \label{src:reg_no_set}
+\end{figure}
+
+\figref{src:reg_no_set} に提案手法の実装を示す．
+\figref{src:reg} の実装から set\_ 変数を除いている．
+
+% 追加ここまで
+
+
 \subsection{値を配列として格納しメモリ配置を工夫} \label{sss:mem_copy}
 
 \begin{figure}[t]
