@@ -1,17 +1,51 @@
+\if0
 プロセッサなどのハードウェア設計は，アーキテクチャ設計・論理設計・回路設計・物理設計といったフローで行われる．
 アーキテクチャ設計と論理設計においては，RTL (Register Transfer Level) のシミュレーションが不可欠である．
 このために Verilog HDL などのハードウェア記述言語が用いられることが一般的である．
+\fi
+The VLSI chips such as high performance processors or SoC with processor elements are designed in the flow of architectural design,
+logic design, circuit design, and physical design.
+In the architectural design and logical design, Register Transfer Level (RTL) simulation is essential for logical verification.
+Hardware description languages such as Verilog HDL or VHDL are often used for the RTL modeling and simulation.
+\if0
 しかし Verilog HDL によるハードウェアのシミュレーションは速度が遅く，ハードウェア設計を行う上で障害になることがあった．
+\fi
+But the architectural simulation speed is slow with Verilog HDL, It was difficult to design architectural design.
 
+\if0
 この問題を解決することを目標に C++ 言語上で RTL モデリングを行う新しい言語である ArchHDL が提案された．
 ArchHDL はハードウェアのレジスタを変数，ワイヤを関数として扱うことで，Verilog HDL に近い記述でハードウェアの論理検証を行うことができる．
+\fi
+ArchHDL which is a new language for hardware RTL modeling on C++ was proposed to solve this problem.
+ArchHDL treats a registers as a variable and wires as a function.
+The hardware description in ArchHDL is similar to that of Verilog HDL.
 
+\if0
 ArchHDL で記述したハードウェアのシミュレーションはオープンソースの Verilog シミュレータである Icarus Verilog と比較してかなり高速である．
 最速な有償の Verilog シミュレータである Synopsys 社の VCS と比較しても高速であることが多い．
+\fi
+The architectural simulation speed with ArchHDL is much faster than
+that with Icarus Verilog which is a Verilog simulator of open source.
+It is often faster than VCS of Synopsys, Inc.
+VCS is the fastest in the Verilog simulators and a paid software.
 
+\if0
 本論文では，ArchHDL のさらなる高速化を目指す．
 (1)データ変更の有無による条件分岐の除去，(2)値を配列として格納しメモリ配置を工夫，(3)並列化という 3 つの高速化手法を提案し，実装する．
+\fi
+In this paper, I aim to further speed up ArchHDL.
+(1) Removal of conditional branching due to the presence or absence of data change,
+(2) devise a memory allocation and stored as an array value,
+(3) parallelization.
+I propose and implement a fast method of the three.
 
+\if0
 マイクロベンチマークである 4096 個のカウンタ回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 5.23 倍高速になった．
 現実的なハードウェアであるステンシル計算回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 1.95 倍高速になった．
 提案手法により今回用いたすべての評価において Synopsys 社の VCS よりも高速にシミュレーションが行えるようになった．
+\fi
+When I evaluated using 4096 of the counter circuit which is a micro benchmark,
+the proposed method is 5.23 times faster than the original ArchHDL.
+When I evaluated using a stencil-computation circuit which is a realistic hardware,
+the proposed method is 1.95 times faster than the original ArchHDL.
+the proposed method can be performed faster than VCS in the all evaluation here.
