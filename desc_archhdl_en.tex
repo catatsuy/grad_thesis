@@ -1,0 +1,184 @@
+The hardware description in ArchHDL is similar to that of Verilog HDL.
+The \textbf{ArchHDL library} provides \textit{Module} class, \textit{reg} class and \textit{wire} class.
+Hardware designers describe a hardware using these classes and lambda function of C++11.
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/counter8.cc}
+ \caption{A sample description of 8-bit counter in ArchHDL}
+ \label{src:counter}
+\end{figure}
+
+\begin{figure}[t]
+ \lstinputlisting[language=verilog]{src/counter8.v}
+ \caption{A sample description of 8-bit counter in Verilog HDL}
+ \label{src:counter_v}
+\end{figure}
+
+\figref{src:counter} is a description of the 8-bit counter in ArchHDL and
+\figref{src:counter_v} is a description of it in Verilog HDL.
+In ArchHDL, a class which declared as a subclass of the \textit{Module} class corresponds to a module of Verilog HDL.
+In the following, we call this class ``\textit{Module child} class''.
+Similarly, the \textit{reg} class and the \textit{wire} class of ArchHDL correspond to a register and a wire of Verilog HDL respectively. 
+
+In a \textit{Module child} class, A \textit{Init} function and An \textit{Always} function are declared for a wire assignment and a register assignment.
+
+In the \textit{Init} function, users write the assignment of all wire in a module.
+To realize the continuous assignment in C++, ArchHDL uses the lambda function and defines all wire as a function.
+The description in \textit{Init} function corresponds to the assign statement of Verilog HDL.
+In the 6th line of \figref{src:counter}, the lambda function (\textit{[=]() \{ return counter(); \}}) which returns a value of \textit{reg counter} is assigned to the \textit{wire out}.
+Note that, the value of the \textit{reg} class object can be get by calling the object as a function.
+Therefore, the function call \textit{counter()} returns the value of \textit{reg counter}.
+This statement equals to the 6th line of \figref{src:counter_v}.
+
+In the \textit{Always} function, users write the assignment of all register in a module.
+In ArchHDL, the assignment of a value to a register is allowed only at the time of a positive edge of a single clock.
+ArchHDL realizes the non-blocking assignment to a register using $<<=$ operator.
+In the ArchHDL library, the $<<=$ operator is overloaded as the non-blocking assignment implementation.
+Therefore, the assignment using $<<=$ operator in the \textit{Always} function is corresponds to the non-blocking assignment in the \textit{always@(posedge clock)} block of Verilog HDL.
+In the 9th line of \figref{src:counter}, the \textit{reg counter} is assigned an incremented value of itself.
+This statement equals to the 8th line of \figref{src:counter_v}.
+
+ArchHDL uses the integer type of C++ as a data type of registers and wires.
+In the example shown in \figref{src:counter}, we used \textit{unsigned int} as the data type.
+To implement the 8-bit counter in ArchHDL, the value of \textit{unsigned int} is masked by 0xff as in the 9th line of \figref{src:counter}.
+
+\section{Test bench description of ArchHDL}
+
+ArchHDL is implemented using C++.
+Users are able to describe a test bench flexibly to the extent possible in C++.
+In this subsection, we show an example of a test bench in ArchHDL which is similar to a test bench in Verilog HDL.
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/cnt_testtop.cc}
+ \caption{A sample description of a test bench for the 8-bit counter in ArchHDL}
+ \label{src:test}
+\end{figure}
+
+\figref{src:test} is an example of a test bench for the 8-bit counter shown in \figref{src:counter} in ArchHDL.
+The description of includes and definitions are omitted.
+\textit{HALT\_CYCLE} used in the 14th and the 16th line is constant number.
+
+This test bench is designed as making the test module \textit{TestTop} to test the 8-bit counter in it.
+In this way, the description of the \textit{main} function from the 22nd line becomes simple.
+The creation of the \textit{TestTop} module instance and the call of \textit{Step} function are only written in the main function.
+
+All \textit{reg} class instance and \textit{wire} class instance ArchHDL are managed in the ArchHDL library when the \textit{Module child} class instance in which they are declared is created.
+Thus, the simulation of the 8-bit counter can be carried out only with the call of \textit{Step} function which defined in the ArchHDL library after the creation of \textit{TestTop} module.
+
+\begin{figure}[t]
+ \lstinputlisting[language=verilog]{src/cnt_testtop.v}
+ \caption{A sample description of a test bench for the 8-bit counter in Verilog HDL}
+ \label{src:test_v}
+\end{figure}
+
+\figref{src:test_v} is an example of a test bench for the 8-bit counter in Verilog HDL.
+ArchHDL is able to write a test bench in similar description in Verilog HDL.
+The major difference between the test bench in ArchHDL and Verilog HDL is the description of clock generation which is denoted in the 14th line of \figref{src:test_v}.
+Otherwise there is no significant difference in the description in ArchHDL and Verilog HDL.
+
+\section{Implementation of ArchHDL} \label{ss:implementation}
+
+Seven classes are defined in the ArchHDL library.
+They are \textit{Module} class, \textit{ModuleInterface} class, \textit{wire} class, \textit{WireInterface} class, \textit{RegInterface} class, \textit{reg} class and \textit{Singleton} class.
+In this subsection, we describe about the implementation of ArchHDL while showing the source code of the library.
+
+\begin{figure}[p]
+ \lstinputlisting[language=c++,basicstyle=\ttfamily\footnotesize]{src/singleton.cc}
+ \caption{The source code of each interface class, \textit{Singleton} class and \textit{Step} function in the ArchHDL library.}
+ \label{src:class_singleton}
+\end{figure}
+
+\figref{src:class_singleton} shows the definition of \textit{RegisterInterface} class, \textit{ModuleInterface} class, \textit{WireInterface} class, \textit{Singleton} class and Step function.
+
+\textit{ModuleInterface} class, \textit{WireInterface} class and \textit{RegisterInterface} class are interface classes of \textit{Module} class, \textit{wire} class and \textit{reg} class respectively.
+ArchHDL uses the singleton pattern, and \textit{Singleton} class consolidate instances of \textit{Module child} class, \textit{wire} class and \textit{reg} class.
+This class is the most important class in the ArchHDL library.
+
+As member variables, \textit{Singleton} class has three dynamic arrays which keep pointers of \textit{Module} class, \textit{wire} class and \textit{reg} class (denoted from 18th line to 20th line).
+When the instance of {Module child} class, \textit{wire} class or \textit{reg} class is created, the pointer to its class is passed to the instance of \textit{Singleton} class.
+At that time, the pointer is upcasted to its interface class automatically (denoted from 26th line to 34th line).
+
+The \textit{Step} function is the function to do one cycle simulate of hardware.
+In the \textit{Step} function, \textit{Exec} function in \textit{Singleton} class is called.
+The multicycle simulation can be carried out calling the \textit{Step} function repetitively,
+
+The \textit{Init} function of \textit{Singleton} calls the \textit{Init} function of all \textit{Module child} instance which kept in \textit{Singleton} class.
+Note that, the \textit{Init} function in \textit{Singleton} class is called at the first call of the \textit{Step} function.
+
+In the \textit{Exec} function (denoted from 40th line to 47th line), at first \textit{Always} functions of All \textit{Module chile} class instance held in \textit{Singleton} class are called (denoted in 42nd line).
+Next, \textit{Update} functions of All \textit{reg} class instance held in \textit{Singleton} class are called (denoted in 45th line).
+
+A value at next cycle of all register is computed by the \textit{Always} function.
+Registers are updated by the \textit{Update} function.
+The process of the \textit{Always} function and the \textit{Update} function implements the non-blocking assignment of Verilog HDL.
+
+\subsection{Definition of reg class}
+
+\begin{figure}[tp]
+ \lstinputlisting[language=c++]{src/reg.cc}
+ \caption{The source code of \textit{reg} class in the ArchHDL library.}
+ \label{src:reg}
+\end{figure}
+
+\figref{src:reg} shows the definition of \textit{reg} class.
+This class is a template class which takes a data type to use in the class as the template argument.
+The \textit{RegisterInterface} class is inherited as the interface class.
+
+ArchHDL deals a register as a variable.
+Therefore \textit{reg} class has two variables \textit{curr\_} and \textit{next\_} which data type is given by the template arguments.
+The value of \textit{curr\_} is a value at one cycle, and the value of \textit{next\_} is a value at the next cycle.
+A value is assigned to the variable \textit{next\_} by calling the \textit{Always} function.
+The value of the variable \textit{next\_} is assigned to the variable \textit{curr\_} by calling the \textit{Update} function which is a member method of \textit{reg} class.
+In this way, the non-blocking assignment to the register is carried out.
+
+To assign a value to the variable \textit{next\_} in the \textit{reg} class object, \verb`<<=` operator is used.
+we redefine the \verb`<<=` operator using operator overload.
+The value assigned to the \textit{reg} class object by the \verb`<<=` operator is stored to the variable \textit{next\_}.
+At the same time of assignment, the \textit{set\_} flag is set.
+
+After calling the \textit{Always} functions of all \textit{Module} class instance, the \textit{Update} functions of all \textit{reg} class instance are called.
+Thus, the value of the variable \textit{curr\_} in \textit{reg} class is kept while the function call of the \textit{Always} functions.
+
+The constructor of \textit{reg} class initializes the member variables and give the pointer of itself to \textit{Singleton} class.
+The assignment to \textit{reg} class object by \verb`=` operator is also defined for the description of test bench or the setting of initial value.
+The value assigned to the \textit{reg} class object by the \verb`=` operator updates the variable \textit{next\_} immediately.
+The value of \textit{reg} class is given by calling the object as a function.
+
+\subsection{Definition of wire class}
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/wire.cc}
+ \caption{The source code of \textit{wire} class in the ArchHDL library.}
+ \label{src:wire}
+\end{figure}
+
+\figref{src:wire} shows the definition of \textit{wire} class.
+This class is a template class which takes a data type to use in the class as the template argument.
+The \textit{WireInterface} class is inherited as the interface class.
+
+ArchHDL deals wire as a function.
+Therefore, \textit{wire} class has a variable \textit{lambda\_} to hold a lambda function.
+The data type of return value of this lambda function is the data type given by the template argument.
+
+The assignment to the \textit{wire} class object is limited to the assignment of the lambda function by disallowing the copy constructor and overloading the = operator.
+In this way, the \textit{wire} class becomes to be the class which held a lambda function described in the \textit{Init} function of \textit{Module child} class.
+
+The constructor of \textit{wire} class initializes the member variables and give the pointer of itself to \textit{Singleton} class.
+Calling the object of \textit{wire} class as a function, it returns the return value of lambda function evaluation.
+Thus, a value of a wire at one cycle can be get from the function call of the \textit{wire} class object.
+
+\subsection{Definition of Module class}
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/module.cc}
+ \caption{The source code of \textit{Module} class in the ArchHDL library.}
+ \label{src:module}
+\end{figure}
+
+\figref{src:module} is the definition of \textit{Module} class.
+This class inherits \textit{ModuleInterface} class.
+We use \textit{Module} class as the parent class to describe a module in ArchHDL.
+
+The constructor of \textit{Module} class gives the pointer of itself to \textit{Singleton} class.
+The \textit{Init} function and the \textit{Always} function are declared as virtual functions in \textit{ModuleInterface}.
+Therefore, the empty \textit{Init} function and the empty \textit{Always} function are also defined in \textit{Module} class.

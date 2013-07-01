@@ -1,0 +1,41 @@
+The specification of lambda function is defined in the C++ ISO standard called C++11.
+From GCC version 4.5, the lambda function is supported in the C++ standard library.
+
+ArchHDL uses the the lambda function for hardware description.
+In this section, we describe about the C++11 lambda function. to the extent necessary to ArchHDL.
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/def_lam.cc.part}
+\caption{An example of C++ program which includes a definition of lambda function.}
+ \label{src:def_lambda}
+\end{figure}
+
+\figref{src:def_lambda} shows an example of C++ program which includes a lambda function.
+Note that, the program includes only the definition of a lambda function, so it has no meaning.
+The 2nd line of source code is the definition of lambda function which takes two int values as arguments and returns the sum of arguments.
+
+The description of lambda function starts from \textit{lambda-introducer} [] \footnote{
+A lambda introducer may contain a \textit{lambda-capture}.
+ArchHDL only uses the option [=], so we skip the details of lambda-capture at here.
+}
+The return type of lambda function is automatically deduced from the return expression.
+In the case of \figref{src:def_lambda} line 2, the return type is deduced as int.
+
+\begin{figure}[t]
+ \lstinputlisting[language=c++]{src/ex_lam.cc}
+ \caption{An example of C++ program which includes a definition of lambda function and a usage of it.}
+ \label{src:ex_lambda}
+\end{figure}
+
+\figref{src:ex_lambda} shows an example of C++ program using lambda function.
+As the 1st line, we need to include the \textit{functional} standard library to use lambda function.
+
+In the 6th and 7th line, the lambda function [=](int x, int y) \{ return x + y; \} is assigned to the function object \textit{Sum}.
+The type of the lambda function is std::function$<$int ()$>$, therefore \textit{Sum} is declared so.
+Thus, \textit{Sum} becomes a function which takes two int arguments and returns a int value.
+
+In the 8th line, the function \textit{Sum} is called.
+The return value of \textit{Sum} is assigned to the variable \textit{c}.
+The variable \textit{a} and the variable \textit{b} which they are defined in the 4th and 5th line, are given to the function \textit{Sum} as arguments.
+
+In ArchHDL, the lambda function is used in the way like shown in the \figref{src:ex_lambda}.
