@@ -1,10 +1,21 @@
+\if0
 \section{高速化の方針}
+\fi
+\section{A Policy of Speeding up}
 
 高速化の方針として逐次プログラミングにおける最適化と並列化の両方を考える．
 
+\if0
 \section{逐次プログラムにおける高速化手法}
+\fi
+\section{The fast method in sequential program}
 
+\if0
 \subsection{データ変更の有無による条件分岐の除去 \label{sss:no_set}}
+\fi
+
+\subsection{Removal of conditional branching due to the presence or absence of data change}
+\label{sss:no_set}
 
 \figref{src:reg} に示した実装では，reg クラスのインスタンスの値を更新する方法としてブロッキング代入とノン・ブロッキング代入の 2 つが存在する．
 
@@ -40,7 +51,10 @@ reg クラスのインスタンスの更新頻度が低い回路であればこ�
 % 追加ここまで
 
 
+\if0
 \subsection{値を配列として格納しメモリ配置を工夫} \label{sss:mem_copy}
+\fi
+\subsection{Devising a Memory is stored as an array value}
 
 \begin{figure}[t]
  \centering
@@ -147,7 +161,10 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 
 \fi
 
+\if0
 \section{並列化による高速化} \label{ss:parallel}
+\fi
+\section{Speeding Up by Parallelization} \label{ss:parallel}
 
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
 
