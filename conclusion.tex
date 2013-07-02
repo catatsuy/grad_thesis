@@ -1,10 +1,29 @@
+\if0
 ハードウェアの RTL モデリングのための新しい言語として提案している ArchHDL の高速化手法を提案し，実装し，評価した．
 ArchHDL ではハードウェアのレジスタを変数，ワイヤを関数として扱うことで，C++ で RTL モデリングを実現する．
+\fi
+I propose, implement and evaluate the fast methods of ArchHDL which we propose as a new language for hardware RTL modeling.
+ArchHDL treats registers as variables and wires as functions.
+It realizes an RTL modeling on C++.
 
+\if0
 高速化手法として (1)データ変更の有無による条件分岐の除去，(2)値を配列として格納しメモリ配置を工夫，
 (3)並列化手法を提案した．
+\fi
+I propose and implement fast methods of the three.
+(1) Removal of conditional branching due to the presence or absence of data change,
+(2) devise a memory allocation and stored as an array value,
+(3) parallelization.
 
+\if0
 提案手法を実装し，ArchHDL を Icarus Verilog と商用ツールである VCS, NC-Verilog の実行時間と比較した．
-マイクロベンチマークである 4096 個のカウンタ回路を用いた評価では VCS より 56.7 倍高速であった．
-現実的なハードウェアであるステンシル計算回路を用いた評価では VCS より 1.83 倍高速であった．
-我々が知る限り最速な Verilog シミュレータである VCS よりも ArchHDL が高速にハードウェアシミュレーションが行えることを明らかにした．
+マイクロベンチマークである 4096 個のカウンタ回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 5.23 倍高速になった．
+現実的なハードウェアであるステンシル計算回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 1.95 倍高速になった．
+提案手法により今回用いたすべての評価において Synopsys 社の VCS よりも高速にシミュレーションが行えるようになった．
+\fi
+I implement the proposed methods. I compare execution time of ArchHDL with that of Icarus Verilog, NC-Verilog and VCS.
+When I evaluated using 4096 of the counter circuit as a micro benchmark,
+evaluation time of the proposed methods is 5.23 times faster than that of the original ArchHDL.
+When I evaluated using a stencil-computation circuit as a realistic hardware,
+evaluation time of the proposed methods is 1.95 times faster than that of the original ArchHDL.
+The proposed methods can be performed faster than VCS in the all evaluations here.
