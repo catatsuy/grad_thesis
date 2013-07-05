@@ -101,25 +101,50 @@ The implementation of \figref{src:reg} is removed of the variable \textit{set\_}
 \begin{figure}[t]
  \centering
  \includegraphics[clip,width=\linewidth-30pt]{registers_orig}
+\if0
  \caption{ArchHDL における reg クラスのインスタンスの処理の様子}
+\fi
+ \caption{The process of the \textit{reg} class instance with ArchHDL}
  \label{fig:regs}
 \end{figure}
 
+\if0
 \figref{fig:regs} は ArchHDL における reg クラスのインスタンスの処理の様子である．
 \figref{src:class_singleton} の 44 行から 46 行の処理を表している．
 reg クラスのインスタンスが灰色に塗られており，左からクラスのメタデータ，next\_, curr\_ を表している．
 左側の大きな枠が\figref{src:class_singleton} の 18 行の \verb`std::vector` 型の registers\_ である．
 実線矢印は代入を表し．点線矢印はポインタ参照を表す．
+\fi
+\figref{fig:regs} shows the process of the \textit{reg} class instance with ArchHDL.
+It denotes \figref{src:class_singleton} from 44th line to 46th line.
+The \textit{reg} class instances are painted gray
+and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
+Big frame on the left denotes \textit{registers\_} of \verb`std::vector` in the 18th line of \figref{src:class_singleton}.
+A solid arrow represents the assignment.
+A dotted arrow represents a pointer reference.
 
+\if0
 ArchHDL ではノン・ブロッキング代入をシミュレーションするために registers\_ の値を上から順に辿り，
 reg クラスの各インスタンスのポインタを取得する．
 そして reg クラスの全インスタンスの reg::Update() メソッドを呼ぶ．
+\fi
+To simulate the non-blocking assignment in ArchHDL,
+it follows the values of the \textit{registers\_}
+and obtains a pointer to the \textit{reg} class instances.
+The \textit{Update} method of the \textit{reg} class instances is called.
 
+\if0
 \ref{sss:no_set} 節で述べたデータ変更の有無による条件分岐の除去を行うと reg::Update() メソッド内で行なっている
 reg クラスのインスタンスの curr\_ に next\_ の値を代入する処理は
 毎サイクル全 reg クラスのインスタンスで実行されることになる．
+\fi
+If I implement the removal of conditional branch due to the presence or absence of data changes described in \ref{sss:no_set},
+the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle in \textit{reg::Update} method.
 
+\if0
 この代入する処理と reg::Update() メソッドの関数呼び出しの 2 つのオーバーヘッドが ArchHDL の高速化を妨げている．
+\fi
+The two overheads of this assignment and function call make the speed of the ArchHDL slow down.
 
 \begin{figure}[t]
  \centering
