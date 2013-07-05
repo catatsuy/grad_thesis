@@ -18,7 +18,7 @@ as a policy of the fast methods.
 \subsection{データ変更の有無による条件分岐の除去 \label{sss:no_set}}
 \fi
 
-\subsection{Removal of conditional branching due to the presence or absence of data change}
+\subsection{Removal of conditional branch due to the presence or absence of data change}
 \label{sss:no_set}
 
 \if0
@@ -46,7 +46,7 @@ The member variable \textit{set\_} of the \textit{reg} class instance is assigne
 and the member variable \textit{next\_} is assigned to the value
 when the non-blocking assignment is carried out to the \textit{reg} class instance.
 Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the member variable \textit{curr\_} in the \textit{Update} function which is a member method of \textit{reg} class.
-It means the value of register is updated to the new value before the next cycle at the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
+It means the value of the register is updated to the new value before the next cycle on the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
 \figref{src:reg} に示した実装では，
@@ -79,7 +79,7 @@ I can be expected to speed up if the \textit{reg} class instance is updated freq
 \if0
  \caption{条件分岐を除去した reg クラス}
 \fi
- \caption{The source code of \textit{reg} class which is removed of conditional branch}
+ \caption{The source code of \textit{reg} class which is removed of the conditional branch}
  \label{src:reg_no_set}
 \end{figure}
 
