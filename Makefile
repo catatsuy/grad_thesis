@@ -8,4 +8,4 @@ addtoc:
 	make topdf
 topdf:
 	platex $(OUTPUT)
-	dvipdfmx $(OUTPUTDVI)
+	dvipdfmx -f ptex-hiragino.map -f otf-hiragino.map $(OUTPUTDVI)
