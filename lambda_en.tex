@@ -30,8 +30,8 @@ In the case of \figref{src:def_lambda} line 2, the return type is deduced as int
 \figref{src:ex_lambda} shows an example of C++ program using lambda function.
 As the 1st line, we need to include the \textit{functional} standard library to use lambda function.
 
-In the 6th and 7th line, the lambda function [=](int x, int y) \{ return x + y; \} is assigned to the function object \textit{Sum}.
-The type of the lambda function is std::function$<$int ()$>$, therefore \textit{Sum} is declared so.
+In the 6th and 7th line, the lambda function \texttt{[=](int x, int y) \{ return x + y; \}} is assigned to the function object \textit{Sum}.
+The type of the lambda function is \verb`std::function<int ()>`, therefore \textit{Sum} is declared so.
 Thus, \textit{Sum} becomes a function which takes two int arguments and returns a int value.
 
 In the 8th line, the function \textit{Sum} is called.

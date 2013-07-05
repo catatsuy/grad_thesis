@@ -25,16 +25,16 @@ In a \textit{Module child} class, A \textit{Init} function and An \textit{Always
 In the \textit{Init} function, users write the assignment of all wire in a module.
 To realize the continuous assignment in C++, ArchHDL uses the lambda function and defines all wire as a function.
 The description in \textit{Init} function corresponds to the assign statement of Verilog HDL.
-In the 6th line of \figref{src:counter}, the lambda function (\textit{[=]() \{ return counter(); \}}) which returns a value of \textit{reg counter} is assigned to the \textit{wire out}.
+In the 6th line of \figref{src:counter}, the lambda function (\texttt{[=]() \{ return counter(); \}}) which returns a value of \textit{reg counter} is assigned to the \textit{wire out}.
 Note that, the value of the \textit{reg} class object can be get by calling the object as a function.
 Therefore, the function call \textit{counter()} returns the value of \textit{reg counter}.
 This statement equals to the 6th line of \figref{src:counter_v}.
 
 In the \textit{Always} function, users write the assignment of all register in a module.
 In ArchHDL, the assignment of a value to a register is allowed only at the time of a positive edge of a single clock.
-ArchHDL realizes the non-blocking assignment to a register using $<<=$ operator.
-In the ArchHDL library, the $<<=$ operator is overloaded as the non-blocking assignment implementation.
-Therefore, the assignment using $<<=$ operator in the \textit{Always} function is corresponds to the non-blocking assignment in the \textit{always@(posedge clock)} block of Verilog HDL.
+ArchHDL realizes the non-blocking assignment to a register using \verb`<<=` operator.
+In the ArchHDL library, the \verb`<<=` operator is overloaded as the non-blocking assignment implementation.
+Therefore, the assignment using \verb`<<=` operator in the \textit{Always} function is corresponds to the non-blocking assignment in the \texttt{always@(posedge clock)} block of Verilog HDL.
 In the 9th line of \figref{src:counter}, the \textit{reg counter} is assigned an incremented value of itself.
 This statement equals to the 8th line of \figref{src:counter_v}.
 
@@ -56,7 +56,7 @@ In this subsection, we show an example of a test bench in ArchHDL which is simil
 
 \figref{src:test} is an example of a test bench for the 8-bit counter shown in \figref{src:counter} in ArchHDL.
 The description of includes and definitions are omitted.
-\textit{HALT\_CYCLE} used in the 14th and the 16th line is constant number.
+\texttt{HALT\_CYCLE} used in the 14th and the 16th line is constant number.
 
 This test bench is designed as making the test module \textit{TestTop} to test the 8-bit counter in it.
 In this way, the description of the \textit{main} function from the 22nd line becomes simple.
