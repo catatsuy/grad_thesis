@@ -21,36 +21,74 @@ as a policy of the fast methods.
 \subsection{Removal of conditional branching due to the presence or absence of data change}
 \label{sss:no_set}
 
+\if0
 \figref{src:reg} に示した実装では，reg クラスのインスタンスの値を更新する方法としてブロッキング代入とノン・ブロッキング代入の 2 つが存在する．
+\fi
+In the implementation shown \figref{src:reg},
+Methods of updating the value of the \textit{reg} class instance are the two non-blocking assignment and blocking assignment.
 
+\if0
 ブロッキング代入について考える．reg クラスのインスタンスにブロッキング代入が行われた時に curr\_ の値を書き換える．
+\fi
+I consider blocking assignment.
+I rewrite the value of the variable \textit{curr\_} in the \textit{reg} class instance
+when the blocking assignment is carried out to the \textit{reg} class instance.
 
+\if0
 一方でノン・ブロッキング代入について考える．
 reg クラスのインスタンスにノン・ブロッキング代入が行われた時にメンバ変数 set\_ を true にし，メンバ変数 next\_ に値を代入する．
 そして reg::Update 内では set\_ が true の時だけ next\_ をメンバ変数 curr\_ に代入する．
 これは reg クラスのインスタンスの値を変更したサイクルのみで，
 その reg クラスのインスタンスの値を次サイクルに移る前に新しい値に更新することを意味する．
+\fi
+I consider non-blocking assignment.
+The member variable \textit{set\_} of the \textit{reg} class instance is assigned to true
+and the member variable \textit{next\_} is assigned to the value
+when the non-blocking assignment is carried out to the \textit{reg} class instance.
+Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the member variable \textit{curr\_} in the \textit{Update} function which is a member method of \textit{reg} class.
+It means the value of register is updated to the new value before the next cycle at the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
 
+\if0
 \figref{src:reg} に示した実装では，
 更新されない reg クラスのインスタンスの curr\_ と next\_ の値が同じであるため，代入する処理を行う必要はない．
 よって set\_ 変数を用いて不要な代入を避けている．
 reg クラスのインスタンスの更新頻度が低い回路であればこの実装が効率的である．
+\fi
+In the implementation shown \figref{src:reg},
+it is not necessary to perform the process of assignment
+if the value of the \textit{next\_} and \textit{curr\_} of the \textit{reg} class instance are same.
+Therefore the unnecessary assignment is avoided using the variable \textit{set\_}.
+This implementation is more efficient if the reg class instance is not updated very frequently.
 
+\if0
 提案手法について述べる．
 この set\_ 変数が true の時のみ代入するのではなく，
 次サイクルに移る前に next\_ の値を curr\_ に常に代入するようにする．
 こうすることによって分岐のオーバーヘッドが無くなるため，ノン・ブロッキング代入が頻繁に行われる回路で速度向上が期待できる．
+\fi
+I describe the proposed method.
+The process of assignment is not performed only when the variable \textit{set\_} is true
+but the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle.
+It eliminates without the overhead of the \textit{if} branch,
+I can be expected to speed up if the \textit{reg} class instance is updated frequently.
 
 % SWoPP より追加
 
 \begin{figure}[tb]
  \lstinputlisting[language=c++]{src/reg_no_set.cc}
+\if0
  \caption{条件分岐を除去した reg クラス}
+\fi
+ \caption{The source code of \textit{reg} class which is removed of conditional branch}
  \label{src:reg_no_set}
 \end{figure}
 
+\if0
 \figref{src:reg_no_set} に提案手法の実装を示す．
 \figref{src:reg} の実装から set\_ 変数を除いている．
+\fi
+\figref{src:reg_no_set} shows the implementation of the proposed method.
+The implementation of \figref{src:reg} is removed of the variable \textit{set\_}.
 
 % 追加ここまで
 
