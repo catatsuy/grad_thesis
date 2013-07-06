@@ -96,7 +96,7 @@ The implementation of \figref{src:reg} is removed of the variable \textit{set\_}
 \if0
 \subsection{値を配列として格納しメモリ配置を工夫} \label{sss:mem_copy}
 \fi
-\subsection{Devising a Memory is stored as an array value} \label{sss:mem_copy}
+\subsection{Devising a Memory Allocation and Stored as an Array} \label{sss:mem_copy}
 
 \begin{figure}[t]
  \centering
@@ -120,8 +120,8 @@ It denotes \figref{src:class_singleton} from 44th line to 46th line.
 The \textit{reg} class instances are painted gray
 and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
 Big frame on the left denotes \textit{registers\_} of \verb`std::vector` in the 18th line of \figref{src:class_singleton}.
-A solid arrow represents the assignment.
-A dotted arrow represents a pointer reference.
+A solid arrows represent the assignment.
+A dotted arrows represent a pointer reference.
 
 \if0
 ArchHDL ではノン・ブロッキング代入をシミュレーションするために registers\_ の値を上から順に辿り，
@@ -149,33 +149,72 @@ The two overheads of this assignment and function call make the speed of the Arc
 \begin{figure}[t]
  \centering
  \includegraphics[clip,width=\linewidth-30pt]{registers_mem}
+\if0
  \caption{値を配列として格納しメモリ配置を工夫した reg クラスのインスタンスの処理の様子}
+\fi
+ \caption{The process of the \textit{reg} class instance stored as an array}
  \label{fig:mem_copy}
 \end{figure}
 
+\if0
 提案手法について述べる．
 \figref{fig:mem_copy} に値を配列として格納しメモリ配置を工夫した reg クラスのインスタンスの処理の様子を示す．
 \figref{fig:mem_copy} は提案手法である．
 提案手法では全 reg クラスのインスタンスは現在の値と次サイクルの値の実体は持たず，ポインタを保持するように変更している．
+\fi
+I describe the proposed method.
+\figref{fig:mem_copy} shows the process of the \textit{reg} class instance stored as an array.
+\figref{fig:mem_copy} shows the proposed method.
+That all of the \textit{reg} class instance have the value of the next cycle and the current value is changed into holding each pointer in the proposed method.
+\if0
 reg クラスのインスタンスが灰色に塗られており，左からクラスのメタデータ，\&next\_, \&curr\_ を表している．
 \&next\_, \&curr\_ は next\_, curr\_ のポインタである．
 下の枠が next\_, curr\_ の値をまとめた配列であり，
 ここでは next collections, curr collections と呼ぶ．
 実線矢印は代入を表し，点線矢印はポインタの参照先を表す．
+\fi
+The \textit{reg} class instances are painted gray
+and metadata of the class, the \texttt{\&next\_} and the \texttt{\&curr\_} are represented from the left.
+the \texttt{\&next\_} and the \texttt{\&curr\_} is a pointer of \textit{next\_} and \textit{curr\_}.
+Big frames on the bottom denote the arrays which summarize the value of \textit{next\_} and \textit{curr\_}.
+next collections and curr collections is named here.
+A solid arrows represent the assignment.
+A dotted arrows represent a pointer reference.
 
+\if0
 ArchHDL の実装では次サイクルに移る前に行われる curr\_ に next\_ の値を代入する処理は
 reg クラスのインスタンスが存在するアドレスを調べる必要がある．
 しかし値を配列として格納しメモリ配置を工夫すると\figref{fig:mem_copy} に示すように単純な代入となる．
 また今まで飛び飛びのアドレスに格納されていた next\_ と curr\_ のメモリ配置がまとまるのでメモリアクセスが連続的に行える．
 さらに reg::Update() の関数呼び出しが不要となり，関数呼び出しのオーバーヘッドもなくなる．
 これらの理由により高速化が期待できる．
+\fi
+It is necessary to examine the address the \textit{reg} class instances exist in the implementation of original ArchHDL
+before the process of assigning the value of the \textit{next\_} to the variable \textit{curr\_} is executed before moving the next cycle.
+But if the implementation of \textit{reg} class is devised a memory allocation and stored as an array, \textit{Update} method is a simple assignment as shown in \figref{fig:mem_copy}.
+Memory access can be carried out continuously
+because the memory allocation of the variable \textit{next\_} and \textit{curr\_} is continuous.
+The memory allocation is discrete in the implementation of original ArchHDL.
+Overhead of a function call is eliminated
+because it is unnecessary to call the \textit{Update} method.
+In the above reasons, speeding up can be expected.
 
+\if0
 提案手法の実装について述べる．
 next collections, curr collections として 2 つの十分大きな \verb/unsigned int/ 型の配列を用意する．
 記述された型に応じて，reg クラスのコンストラクタが next\_, curr\_ それぞれの領域を next collections, curr collections に確保する．
 確保する領域は参照の高速化のために 4 バイトの倍数とする．
 確保された next\_ と curr\_ のアドレスを取得し，インスタンス内の \&next\_, \&curr\_ がそれを保持する．
 これまで reg クラスの全インスタンスの reg::Update() メソッドを呼び出していたところを next\_ collections から curr\_ collections の値コピーに変更する．
+\fi
+I describe the implementation of the proposed method.
+2 large arrays of the type of \verb/unsigned int/ are allocated as next collections and curr collections.
+Depending on the type of the template arguments, the constructor of \textit{reg} class allocates each region to next collections and curr collections.
+The allocated region is a multiple of 4 bytes to speed up reference.
+The addresses of the variable \textit{next\_} and \textit{curr\_} are acquired and
+the \texttt{\&next\_} and the \texttt{\&curr\_} hold them.
+The \texttt{reg::Update} method is not called
+but next collections are assigned to curr collections.
 
 
 \if0
