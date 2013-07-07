@@ -338,12 +338,34 @@ The number of threads can be changed by the environment.
 The 2nd line of \figref{src:exec_openmp} give parallelization in 8 threads.
 The 4th line and the 8th line are OpenMP directives to parallelize the execution of the \textit{for} statement.
 
+\if0
 一般に，並列化を行う場合は各スレッドに対して均等に負荷を与えることが重要である．
 OpenMP では for 文の負荷を分散するスケジュール方法として，静的に決定する static や，動的に決定する dynamic など複数の方法が存在する．
 一般に，スケジュール方法に dynamic を指定した場合，各スレッドに割り当てられる負荷が均等に近くなるメリットはあるが，オーバーヘッドが大きいデメリットがある．
 ArchHDL により記述されたハードウェア記述では各モジュールと各レジスタの負荷が大幅に変わらないのであれば，static を指定した方が効率が良いと考えられる．
+\fi
+Generally, it is important that parallelization divide the task equally to each thread.
+Several methods such as \textit{static} to determine statically
+and \textit{dynamic} to determine dynamic exist
+as a way to balance the load of the \textit{for} statement in OpenMP.
+If you specify the \textit{dynamic} as a way to schedule generally,
+there are benefits that load assigned to each thread is almost equal,
+but there are disadvantages large overhead.
+If load of each register and each module is not very difference in the hardware description in ArchHDL,
+it is considered desirable to specify \textit{static}.
 
+\if0
 他にも OpenMP にはオプションとしてチャンクサイズを指定できる．
 スケジュール方法を static にし，チャンクサイズを指定しなければ，チャンクサイズはループの反復数をスレッド数で割った商とほぼ同じ値になる．
+\fi
+The chunk size can be specified as an option of the OpenMP.
+The chunk size is similar to a value dividing the number of loop iterations by the number of threads
+if you specify the \textit{static} as a way to schedule and no chunk size.
 
+\if0
 今回の評価ではスケジュール方法は static でチャンクサイズは指定しないデフォルトの設定で行う．
+私はスケジュール方法として static を，チャンクサイズとしてなしを指定する．
+これはデフォルトの設定である．
+\fi
+I specify the \textit{static} as a way to schedule and no chunk size in the evaluation of this paper.
+It is the default setting.
