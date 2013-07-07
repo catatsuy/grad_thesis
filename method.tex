@@ -116,7 +116,7 @@ reg クラスのインスタンスが灰色に塗られており，左からク�
 実線矢印は代入を表し．点線矢印はポインタ参照を表す．
 \fi
 \figref{fig:regs} shows the process of the \textit{reg} class instance with ArchHDL.
-It denotes \figref{src:class_singleton} from 44th line to 46th line.
+It denotes \figref{src:class_singleton} from the 44th line to the 46th line.
 The \textit{reg} class instances are painted gray
 and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
 Big frame on the left denotes \textit{registers\_} of \verb`std::vector` in the 18th line of \figref{src:class_singleton}.
@@ -272,33 +272,71 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 \fi
 \section{Speeding Up by Parallelization} \label{ss:parallel}
 
+\if0
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
+\fi
+I have been considering the fast methods in sequential programming,
+however I consider the speed up by parallelization in this section.
 
+\if0
 \figref{src:class_singleton} の 40 行〜 47 行に示すように
 毎サイクル，Module クラスと reg クラスの全インスタンスの Module::Always() メソッドと reg::Update() メソッドが呼び出されている．
+\fi
+As \figref{src:class_singleton} is shown from the 40th line to the 47th line,
+all of the \textit{Module} and \textit{reg} class instances
+call \textit{Module::Always} and \textit{reg::Update} method every cycle.
 
+\if0
 \figref{src:class_singleton} の41行〜43行で実行される Module::Always() メソッドはユーザが自由に記述できる．
 そのため各 Module クラスのインスタンスで独立に Module::Always() メソッドが実行できる保証はない．
 しかしここでは独立に実行できると仮定する．
 独立に実行できる条件は今後の研究課題とする．
 この場合\figref{src:class_singleton} の41行〜43行に示している Module::Always() メソッドの実行は並列化が可能である．
+\fi
+From the 41th line to the 43th line in \figref{src:class_singleton},
+\textit{Module::Always} method can be described freely by the user.
+Therefore there is no guarantee that \textit{Module::Always} method can be executed separately for each of the \textit{Module} class instances.
+However, it is assumed that it can execute independently here.
+It is a special challenge for the future conditions.
+Parallelization are possible executions of the method.
+It is possible to parallelize the execution of the \textit{Module::Always} method.
 
+\if0
 \figref{src:class_singleton} の 44 行〜 46 行で行われるレジスタの更新は\figref{fig:regs} の実線で表されている．
 各インスタンスで独立に行えるので並列化が可能である．
+\fi
+\figref{fig:regs} shows the update of the register by solid arrows.
+It is possible to execute independently for each instance.
+It is possible to parallelize the execution of the \textit{reg::Update} method.
 
+\if0
 \figref{src:class_singleton} の41行〜47行に示している Module クラスと reg クラスの全インスタンスの Module::Always() メソッドと reg::Update() メソッドの実行は並列化が可能である．
 提案手法について述べる．この部分を並列化する．並列化には OpenMP~\cite{openmp} を用いる．
+\fi
+I describe the proposed method.
+I parallelize \textit{Module::Always} and \textit{reg::Update} method from the 41th line to the 43th line in \figref{src:class_singleton}.
+I use OpenMP~\cite{openmp} to parallelize.
 
 \begin{figure}[t]
  \lstinputlisting[language=c++]{src/exec_openmp.cc}
+\if0
  \caption{Exec メソッド内の for 文を OpenMP で並列化したプログラム}
+\fi
+ \caption{The source code which is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads}
  \label{src:exec_openmp}
 \end{figure}
 
+\if0
 \figref{src:exec_openmp} は\figref{src:class_singleton} の 40 行〜 47 行が 8 スレッドで並列化が行われるように OpenMP 指示文を与えたソースコードである．
 2 行目は並列化を何スレッドで行うかを与えている．
 今回は 8 をスレッド数に指定している．この数字は環境によって変えることができる．
 4 行目と 8 行目は for 文の実行を並列化する OpenMP 指示文である．
+\fi
+\figref{src:exec_openmp} is an improvement on \figref{src:class_singleton} from the 40th line to the 47th line.
+\figref{src:exec_openmp} shows the source code which is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads.
+The number of threads can be changed by the environment.
+The 2nd line of \figref{src:exec_openmp} give parallelization in 8 threads.
+The 4th line and the 8th line are OpenMP directives to parallelize the execution of the \textit{for} statement.
 
 一般に，並列化を行う場合は各スレッドに対して均等に負荷を与えることが重要である．
 OpenMP では for 文の負荷を分散するスケジュール方法として，静的に決定する static や，動的に決定する dynamic など複数の方法が存在する．
