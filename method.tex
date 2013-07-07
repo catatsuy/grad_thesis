@@ -175,9 +175,9 @@ reg クラスのインスタンスが灰色に塗られており，左からク�
 \fi
 The \textit{reg} class instances are painted gray
 and metadata of the class, the \texttt{\&next\_} and the \texttt{\&curr\_} are represented from the left.
-the \texttt{\&next\_} and the \texttt{\&curr\_} is a pointer of \textit{next\_} and \textit{curr\_}.
+The \texttt{\&next\_} and the \texttt{\&curr\_} is a pointer of \textit{next\_} and \textit{curr\_}.
 Big frames on the bottom denote the arrays which summarize the value of \textit{next\_} and \textit{curr\_}.
-next collections and curr collections is named here.
+The next collections and the curr collections is named here.
 A solid arrows represent the assignment.
 A dotted arrows represent a pointer reference.
 
@@ -195,7 +195,7 @@ But if the implementation of \textit{reg} class is devised a memory allocation a
 Memory access can be carried out continuously
 because the memory allocation of the variable \textit{next\_} and \textit{curr\_} is continuous.
 The memory allocation is discrete in the implementation of original ArchHDL.
-Overhead of a function call is eliminated
+The overhead of a function call is eliminated
 because it is unnecessary to call the \textit{Update} method.
 In the above reasons, speeding up can be expected.
 
@@ -208,13 +208,13 @@ next collections, curr collections として 2 つの十分大きな \verb/unsig
 これまで reg クラスの全インスタンスの reg::Update() メソッドを呼び出していたところを next\_ collections から curr\_ collections の値コピーに変更する．
 \fi
 I describe the implementation of the proposed method.
-2 large arrays of the type of \verb/unsigned int/ are allocated as next collections and curr collections.
-Depending on the type of the template arguments, the constructor of \textit{reg} class allocates each region to next collections and curr collections.
+2 large arrays of the type of \verb/unsigned int/ are allocated as the next collections and the curr collections.
+Depending on the type of the template arguments, the constructor of \textit{reg} class allocates each region to the next collections and the curr collections.
 The allocated region is a multiple of 4 bytes to speed up reference.
 The addresses of the variable \textit{next\_} and \textit{curr\_} are acquired and
 the \texttt{\&next\_} and the \texttt{\&curr\_} hold them.
 The \texttt{reg::Update} method is not called
-but next collections are assigned to curr collections.
+but the next collections are assigned to the curr collections.
 
 
 \if0
