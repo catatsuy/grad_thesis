@@ -1,4 +1,7 @@
+\if0
 本章では ArchHDL での論理シミュレーションの実行時間を評価し，Icarus Verilog, NC-Verilog, VCS での論理シミュレーションの実行時間と比較する．
+\fi
+In this chapter, I evaluate the elapsed time of logic simulation in ArchHDL and it is compared with that of logic simulation in Icarus Verilog, NC-Verilog and VCS.
 
 \begin{table}[t]
 \if0
@@ -19,11 +22,21 @@
  \end{center}
 \end{table}
 
+\if0
 \tabref{table:exec_env} に実行環境をまとめる．
 評価には同じ仕様の 2 台の計算機を用いる．
 一台は Icarus Verilog, ArchHDL の評価に用いる．もう一台は NC-Verilog, VCS の評価に用いる．
 CPU，メモリなどのハードウェアの仕様は同一であるがソフトウェアの制約により異なる OS を利用する．
+\fi
+\tabref{table:exec_env} shows the simulation environment.
+I use the two computers of the same specification for the evaluation.
+I use to evaluate Icarus Verilog and ArchHDL
+One computer is used to evaluate Icarus Verilog and ArchHDL.
+The other is used to evaluate NC-Verilog and VCS.
+The two computers are the same specification such as hardware, CPU, memory and so on.
+However, I use different operating systems due to the limitations of the software.
 
+\if0
 異なる OS を用いる理由を述べる．
 NC-Verilog と VCS は RedHat 系のディストリビューションのみをサポートしている．
 今回は RedHat 系のディストリビューションである CentOS5.9 を用いる．
@@ -35,19 +48,50 @@ gcc の最適化オプションとして \verb/-O2/ を用いる．
 Icarus Verilog はどちらのディストリビューションでも動作するが，今回は Ubuntu12.04 を用いる．
 Ubuntu12.04 に含まれる Icarus Verilog のバージョンは 0.9.5 である．
 VCS のバージョンは vcsC-2009.06 を用いる．NC-Verilog のバージョンは 06.20-s004 を用いる．
+\fi
+I describe the reason for using different operating systems.
+NC-Verilog and VCS support only RPM-based Linux distributions.
+I use CentOS5.9 which is RPM-based Linux distributions for this evaluation.
+However, the version of GCC includes CentOS5.9 is 4.1.2.
+I describe it in Section \ref{s:lambda} that the version of GCC is required 4.5 or later  for using the lambda function in ArchHDL.
+I also use to evaluate the Ubuntu12.04 satisfying the condition.
+The version of GCC includes Ubuntu12.04 is 4.6.3.
+I use \verb/-O2/ as optimization option of GCC.
+Icarus Verilog runs on both computers.
+I use it on Ubuntu12.04 in this evaluation.
+The version of Icarus Verilog includes Ubuntu12.04 is 0.9.5.
+The version of NC-Verilog is 06.20-s004.
+The version of VCS is vcsC-2009.06.
 
+\if0
 今回用いる計算機の CPU の物理コアは 4 コアであるため， OpenMP による並列化はスレッド数を 8 個にして評価する．
+\fi
+Because physical cores of the CPU of the computers are 4 cores for this evaluation,
+I evaluate the parallelization with OpenMP in 8 threads
 
+\if0
 評価では，2 つのマイクロベンチマークと，現実的なハードウェアのベンチマークとしてステンシル計算回路\cite{koba:stencil}を用いる．
 Verilog HDL と ArchHDL のためのハードウェアシミュレーションは手作業により作成した．
 両ハードウェアシミュレーションの出力は同様になるように作成した．
+\fi
+In the evaluation, I use two micro benchmarks
+and stencil-computation circuit as a benchmark of hardware realistic.
+I have created hardware simulation for ArchHDL and Verilog HDL by myself
+and the output of both the hardware simulation to be same.
 
+\if0
 評価結果に用いているラベルの名前について述べる．
 オリジナルの ArchHDL は \textbf{ArchHDL} と表す．
 \ref{sss:no_set} 節で述べた条件分岐の除去を適用したものを \textbf{NO SET} と表す．
 \ref{sss:mem_copy} 節で述べたメモリ配置の工夫を適用したものを \textbf{MEM MAP} と表す．
 \ref{ss:parallel} 節で述べた並列化を行ったものを \textbf{PARA} と表す．
 メモリ配置の工夫と並列を同時に適用したものを \textbf{MEM MAP + PARA} と表す．
+\fi
+I describe the name of the labels which are used on the evaluation results.
+Original ArchHDL is named \textbf{ArchHDL}.
+It is named \textbf{NO SET} that I apply removal of the conditional branch to ArchHDL, which is described in Section \ref{sss:no_set}.
+It is named \textbf{MEM MAP} that I apply devising a memory allocation and stored as an array to ArchHDL, which is described in Section \ref{sss:mem_copy}
+It is named \textbf{PARA} that I apply the parallelization to ArchHDL, which is described in Section \ref{ss:parallel}.
 
 
 \section{Evaluation by Micro Benchmark}
