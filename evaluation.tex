@@ -1,14 +1,20 @@
 本章では ArchHDL での論理シミュレーションの実行時間を評価し，Icarus Verilog, NC-Verilog, VCS での論理シミュレーションの実行時間と比較する．
 
 \begin{table}[t]
+\if0
  \caption{実行環境}
+\fi
+ \caption{Simulation environment}
  \label{table:exec_env}
  \begin{center}
   \begin{tabular}{l|c|c} \hline
          &  Icarus Verilog, ArchHDL  &  NC-Verilog, VCS   \\ \hline
   OS     &  Ubuntu12.04             &  CentOS5.9        \\
   CPU    &  Core i7-3770K 3.50GHz   &  Core i7-3770K 3.50GHz  \\
+\if0
   メモリ  &  $16\,\mathrm{GB}$       &  $16\,\mathrm{GB}$  \\ \hline
+\fi
+   Memory &  $16\,\mathrm{GB}$       &  $16\,\mathrm{GB}$  \\ \hline
   \end{tabular}
  \end{center}
 \end{table}
@@ -44,13 +50,16 @@ Verilog HDL と ArchHDL のためのハードウェアシミュレーション�
 メモリ配置の工夫と並列を同時に適用したものを \textbf{MEM MAP + PARA} と表す．
 
 
-\section{Evaluation by micro benchmark}
+\section{Evaluation by Micro Benchmark}
 
 マイクロベンチマークとしてカウンタ回路と XORSHIFT による乱数生成回路を用いる．
 
 \begin{figure}[tb]
  \lstinputlisting[language=c++]{src/xorshift_alg.cc}
+\if0
  \caption{XORSHIFT 法に基づく乱数生成のアルゴリズム}
+\fi
+ \caption{Algorithm of random number generation based on xorshift RNG}
  \label{src:xorshift_alg}
 \end{figure}
 
@@ -62,7 +71,10 @@ XORSHIFT による乱数生成回路とはシフトと XOR 演算のみで構成
 \begin{figure}[tb]
  \centering
  \includegraphics[clip,width=\linewidth]{counter_4096}
+\if0
  \caption{4096 個のカウンタ回路の実行時間を Icarus Verilog と比較した速度向上比}
+\fi
+ \caption{Speed up ratio compared with the elapsed time of 4096 of the counter circuit with Icarus Verilog}
  \label{fig:counter4096}
 \end{figure}
 
@@ -80,7 +92,10 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
 \begin{figure}[tb]
  \centering
  \includegraphics[clip,width=\linewidth]{counter_con}
+\if0
  \caption{高速化手法を適用した ArchHDL と OpenMP を適用したカウンタ回路の実行時間を Icarus Verilog と比較した速度向上比}
+\fi
+ \caption{Speed up ratio compared with the elapsed time of the counter circuits with Icarus Verilog in ArchHDL applying the fast method and OpenMP}
  \label{fig:counter_con}
 \end{figure}
 
@@ -97,7 +112,10 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
 \begin{figure}[tb]
  \centering
  \includegraphics[clip,width=\linewidth]{xorshift}
+\if0
  \caption{512 個の XORSHIFT による乱数生成器の実行時間を Icarus Verilog と比較した速度向上比}
+\fi
+ \caption{Speed up ratio compared with the elapsed time of 512 of the random number generator circuits by XORSHIFT RNG with Icarus Verilog}
  \label{fig:xorshift}
 \end{figure}
 
@@ -111,7 +129,7 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間はオリジナルの ArchHDL の 2.78 倍高速である．
 
 
-\section{Evaluation by stencil-computation circuit}
+\section{Evaluation by Stencil-Computation Circuit}
 
 \if0
 
@@ -134,7 +152,10 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
 \begin{figure}[tb]
  \centering
  \includegraphics[clip,width=\linewidth]{stencil}
+\if0
  \caption{ステンシル計算回路の Icarus Verilog と比較した実行時間の速度向上比}
+\fi
+ \caption{Speed up ratio compared with the elapsed time of a stencil-computation circuit with Icarus Verilog}
  \label{fig:stencil}
 \end{figure}
 
