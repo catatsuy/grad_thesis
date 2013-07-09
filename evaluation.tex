@@ -96,21 +96,31 @@ It is named \textbf{PARA} that I apply the parallelization to ArchHDL, which is 
 
 \section{Evaluation by Micro Benchmark}
 
+\if0
 マイクロベンチマークとしてカウンタ回路と XORSHIFT による乱数生成回路を用いる．
+\fi
+I use the counter circuits and the random number generator circuits by XORSHIFT RNG as micro benchmarks.
 
 \begin{figure}[tb]
  \lstinputlisting[language=c++]{src/xorshift_alg.cc}
 \if0
  \caption{XORSHIFT 法に基づく乱数生成のアルゴリズム}
 \fi
- \caption{Algorithm of random number generation based on xorshift RNG}
+ \caption{The algorithm of random number generation based on XORSHIFT RNG on C language}
  \label{src:xorshift_alg}
 \end{figure}
 
+\if0
 カウンタ回路とは \figref{src:counter} に示した 1 サイクルごとに 1 を足す回路である．
 ハードウェアの規模を増やすためにカウンタの数を指定できるようにした．
 XORSHIFT による乱数生成回路とはシフトと XOR 演算のみで構成できる XORSHIFT 法に基づく乱数生成器をハードウェア記述によって実装した回路である．
 \figref{src:xorshift_alg} に XORSHIFT 法に基づく乱数生成のアルゴリズムを C 言語によって実装したものを示す．
+\fi
+The counter circuit is a circuit that adds 1 per cycle as shown in \figref{src:counter}.
+I can specify the number of the counter in order to increase the scale of hardware.
+The random number generator circuits by XORSHIFT RNG is a circuit which is implemented as the random number generator based on XORSHIFT RNG by a hardware description.
+XORSHIFT RNG use only the \textit{exclusive or} and a \textit{bit shifted} to generate the random numbers.
+\figref{src:xorshift_alg} shows the algorithm of random number generator based on XORSHIFT RNG on C language.
 
 \begin{figure}[tb]
  \centering
@@ -122,14 +132,26 @@ XORSHIFT による乱数生成回路とはシフトと XOR 演算のみで構成
  \label{fig:counter4096}
 \end{figure}
 
+\if0
 \figref{fig:counter4096} に 4096 個のカウンタ回路の実行時間を Icarus Verilog と比較した速度向上比を示す．
 縦軸は Icarus Verilog での実行時間を 1 とした速度向上比を示している．
+\fi
+\figref{fig:counter4096} shows speed up ratio compared with the elapsed time of 4096 of the counter circuit with Icarus Verilog.
+The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 
+\if0
 ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である．
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間は NC-Verilog の 58.8 倍，VCS の 56.7 倍高速である．
+\fi
+The simulation time of ArchHDL is much faster that that of NC-Verilog and VCS.
+The simulation time of \textbf{MEM MAP + PARA} is 58.8 times faster than that of NC-Verilog and 56.7 times faster than that of VCS.
 
+\if0
 また今回提案している高速化手法はオリジナルの ArchHDL に比べていずれも効果が出ている．
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間はオリジナルの ArchHDL の 5.23 倍高速である．
+\fi
+The proposed methods in this paper are effective as compared with the original ArchHDL.
+The simulation time of \textbf{MEM MAP + PARA} is 5.23 times faster than that of the original ArchHDL.
 
 
 
@@ -143,9 +165,14 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
  \label{fig:counter_con}
 \end{figure}
 
+\if0
 \figref{fig:counter_con} に高速化手法を適用した ArchHDL と OpenMP を適用したカウンタ回路の実行時間を Icarus Verilog と比較した速度向上比を示す．
 縦軸は Icarus Verilog での実行時間を 1 とした速度向上比を示している．
 横軸はカウンタの個数である．
+\fi
+\figref{fig:counter_con} shows speed up ratio compared with the elapsed time of the counter circuits with Icarus Verilog in ArchHDL applying the fast method and OpenMP.
+The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
+The number of counters is denoted in horizontal axis.
 
 \textbf{MEM MAP} は逐次に実行されているので Icarus Verilog と比較した速度向上比はカウンタの個数を変えてもほとんど変わらない．
 並列化を行った \textbf{PARA} と \textbf{MEM MAP + PARA} はカウンタの個数が 1024 個以上で \textbf{MEM MAP} よりも高速になる．
