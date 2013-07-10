@@ -174,10 +174,17 @@ The simulation time of \textbf{MEM MAP + PARA} is 5.23 times faster than that of
 The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 The number of counters is denoted in horizontal axis.
 
+\if0
 \textbf{MEM MAP} は逐次に実行されているので Icarus Verilog と比較した速度向上比はカウンタの個数を変えてもほとんど変わらない．
 並列化を行った \textbf{PARA} と \textbf{MEM MAP + PARA} はカウンタの個数が 1024 個以上で \textbf{MEM MAP} よりも高速になる．
 \textbf{PARA} より \textbf{MEM MAP + PARA} の方が常に高速であるので今回提案している逐次処理での高速化手法は並列化を行った場合でも効果が出ている．
 カウンタの個数はハードウェアの規模とみなせるため，並列化が有効なのはある程度規模の大きい回路であると言える．
+\fi
+Speed up ratio compared to Icarus Verilog is almost unchanged if you change the number of the counters because \textbf{MEM MAP} is executed in sequential program.
+The Simulation time of \textbf{PARA} and \textbf{MEM MAP + PARA} which are executed in parallel is faster than that of \textbf{MEM MAP} if the number of counters is 1024 or more.
+The proposed methods in sequential program are effective in parallel
+because the simulation time of \textbf{MEM MAP + PARA} is always faster than that of \textbf{PARA}.
+Because the number of counters can be regarded as the scale of hardware, the parallelization is effective if the hardware is large-scale.
 
 
 \begin{figure}[tb]
@@ -190,14 +197,27 @@ The number of counters is denoted in horizontal axis.
  \label{fig:xorshift}
 \end{figure}
 
+\if0
 \figref{fig:xorshift} は XORSHIFT による乱数生成器での実行時間を Icarus Verilog と比較した速度向上比である．
 試行回数は 524,288 回である．初期値の異なる乱数生成器を 512 個用意している．
+\fi
+\figref{fig:xorshift} shows speed up ratio compared with the elapsed time of 512 of the random number generator circuits by XORSHIFT RNG with Icarus Verilog.
+The number of trials is 524,288 times.
+I use the 512 random number generators with different initial values.
 
+\if0
 ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である．
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間は NC-Verilog の 32.2 倍，VCS の 11.3 倍高速である．
+\fi
+The simulation time of ArchHDL is much faster than that of NC-Verilog and VCS.
+The simulation time of \textbf{MEM MAP + PARA} is 32.2 times faster than that of NC-Verilog and 11.3 times faster than that of VCS.
 
+\if0
 また今回提案している高速化手法はオリジナルの ArchHDL に比べていずれも効果が出ている．
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間はオリジナルの ArchHDL の 2.78 倍高速である．
+\fi
+The proposed methods in this paper are effective as compared with the original ArchHDL.
+The simulation time of \textbf{MEM MAP + PARA} is 2.78 times faster than that of the original ArchHDL.
 
 
 \section{Evaluation by Stencil-Computation Circuit}
@@ -230,20 +250,40 @@ ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である�
  \label{fig:stencil}
 \end{figure}
 
+\if0
 \figref{fig:stencil} はステンシル計算回路での実行結果である．
 縦軸は Icarus Verilog と比較したそれぞれの速度向上比である．
+\fi
+\figref{fig:stencil} shows speed up ratio compared with the elapsed time of a stencil-computation circuit with Icarus Verilog.
+The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 
+\if0
 オリジナルの ArchHDL は商用の NC-Verilog より高速であったが，同じく商用の VCS はオリジナルの ArchHDL と \textbf{NO SET} より高速である．
 しかし逐次実行での高速化手法と並列化を共に適用した \textbf{MEM MAP + PARA} の論理シミュレーション実行時間は VCS の 1.83 倍高速である．
+\fi
+The simulation time of the original ArchHDL is faster than that of NC-Verilog.
+The simulation time of the original ArchHDL and \textbf{NO SET} is not faster than that of VCS.
+But the simulation time of \textbf{MEM MAP + PARA} is 1.83 times faster than that of VCS.
 
+\if0
 ステンシル計算回路の場合は Update() は 325,469,175 回呼ばれているのに対して，
 reg の値に更新がないのは 5,145,760 回である．
 つまり更新がないのは Update() メソッド呼び出し全体の $1.58\%$ 程度に過ぎない．
 それにより条件分岐を無くす \textbf{NO SET} の論理シミュレーションはオリジナルの ArchHDL より高速である．
 また Update() のメソッド呼び出しを減らし，かつメモリ配置を工夫している \textbf{MEM MAP} の論理シミュレーション実行時間はオリジナルの ArchHDL の 1.31 倍高速である．
+\fi
+\textit{Update} method is called 325,469,175 times in a stencil-computation circuit.
+The number of the value of the reg updated is 5,145,760 times.
+That is, the number of the value of the reg not updated is not only $1.58\%$ of the entire \textit{Update} method call.
+Therefore the simulation time of \textbf{NO SET} is faster than that of the original ArchHDL.
+The simulation time of \textbf{MEM MAP} is 1.31 times faster than that of the original ArchHDL.
 
+\if0
 また Module が 133 個，reg が 991 個存在する回路なので並列化の効果も大きい．
 逐次実行での高速化手法と並列化を共に適用した \textbf{MEM MAP + PARA} の論理シミュレーション実行時間はオリジナルの ArchHDL の 1.95 倍高速である．
+\fi
+The parallelization is effective because this hardware with ArchHDL has the 133 \textit{Module} class instance and the 991 \textit{reg} class instance.
+The simulation time of \textbf{MEM MAP + PARA} is 1.95 times faster than that of the original ArchHDL.
 
 
 % \subsection{高速化の解析}
