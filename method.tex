@@ -17,9 +17,8 @@ as a policy of fast methods.
 \if0
 \subsection{データ変更の有無による条件分岐の除去 \label{sss:no_set}}
 \fi
+\subsection{Removal of conditional branch for data update} \label{sss:no_set}
 
-\subsection{Removal of conditional branch by the presence or absence of data change}
-\label{sss:no_set}
 
 \if0
 \figref{src:reg} に示した実装では，reg クラスのインスタンスの値を更新する方法としてブロッキング代入とノン・ブロッキング代入の 2 つが存在する．
@@ -96,7 +95,7 @@ It is removed of the variable \textit{set\_} from the implementation shown \figr
 \if0
 \subsection{値を配列として格納しメモリ配置を工夫} \label{sss:mem_copy}
 \fi
-\subsection{Devising a Memory Allocation and Stored as an Array} \label{sss:mem_copy}
+\subsection{Storing register values to the continuous memory location} \label{sss:mem_copy}
 
 \begin{figure}[t]
  \centering
@@ -270,7 +269,7 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 \if0
 \section{並列化による高速化} \label{ss:parallel}
 \fi
-\section{Speeding Up by Parallelization} \label{ss:parallel}
+\section{The parallelization of the execution of multiple instances} \label{ss:parallel}
 
 \if0
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
@@ -298,7 +297,6 @@ From the 41th line to the 43th line in \figref{src:class_singleton},
 Therefore there is no guarantee that \textit{Module::Always} method can be executed separately for each of the \textit{Module} class instances.
 However, it is assumed that it can execute independently here.
 It is a special challenge for the future conditions.
-Parallelization are possible executions of the method.
 It is possible to parallelize the execution of the \textit{Module::Always} method.
 
 \if0

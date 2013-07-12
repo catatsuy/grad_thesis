@@ -8,7 +8,7 @@
 アーキテクチャ設計と論理設計においては，RTL (Register Transfer Level) のシミュレーションが不可欠である．
 このために Verilog HDL などのハードウェア記述言語が用いられることが一般的である．
 \fi
-The VLSI chips such as high performance processors or SoC with processor elements are designed in the flow of architectural design,
+The VLSI chips such as high performance processors or SoCs with processor elements are designed in the flow of architectural design,
 logic design, circuit design, and physical design.
 In the architectural design and logical design, Register Transfer Level (RTL) simulation is essential for logical verification.
 Hardware description languages such as Verilog HDL or VHDL are often used for the RTL modeling and simulation.
@@ -18,7 +18,7 @@ Hardware description languages such as Verilog HDL or VHDL are often used for th
 ArchHDL を用いることで Verilog HDL に近い記述でハードウェアの論理検証を行うことができる．
 \fi
 We proposed \textbf{ArchHDL} as a new language for hardware RTL modeling~\cite{satos:archhdl}.
-The hardware description in ArchHDL is similar to that of Verilog HDL.
+The hardware description in ArchHDL is similar to that in Verilog HDL.
 
 \if0
 ArchHDL で記述したハードウェアのシミュレーションはオープンソースの Verilog シミュレータである Icarus Verilog~\cite{iverilog}と比較して高速である．
@@ -33,11 +33,11 @@ However, it is not faster than that with VCS which is the fastest in the verilog
 \if0
 そこで ArchHDL に分岐の削減，メモリ配置の工夫，OpenMP による並列化といった高速化手法を適用する．
 \fi
-In this paper, I aim to further speed up ArchHDL.
-(1) Removal of conditional branch by the presence or absence of data change,
-(2) devising a memory allocation and stored as an array value,
-(3) parallelization.
-I propose and implement fast methods of the three.
+In this thesis, I aim to speed up the logical simulation with ArchHDL.
+I propose and implement three fast methods as follows:
+(1) removal of conditional branch for data update,
+(2) storing register values to the continuous memory location
+and (3) the parallelization of the execution of multiple instances.
 
 \if0
 本論文では Verilog シミュレータの Icarus Verilog, NC-Verilog, VCS と比較して，
@@ -45,7 +45,7 @@ I propose and implement fast methods of the three.
 Verilog シミュレータである Icarus Verilog, NC-Verilog, VCS と比較して，
 今回の高速化手法の有用性を評価する．
 \fi
-In comparison with Icarus Verilog , NC-Verilog, and VCS which are Verilog simulators, I evaluate a usefulness of fast methods in this paper.
+In comparison with Icarus Verilog, NC-Verilog, and VCS which are Verilog simulators, I evaluate a usefulness of fast methods in this thesis.
 
 \if0
 \section{本論文の構成}
@@ -58,7 +58,7 @@ In comparison with Icarus Verilog , NC-Verilog, and VCS which are Verilog simula
 \ref{c:evaluation} 章で，様々な Verilog シミュレーションツールと比較して ArchHDL と今回の高速化手法の評価を行う．
 \ref{c:conclusion} 章でまとめる．
 \fi
-The rest of this paper is organized as follows.
+The rest of this thesis is organized as follows.
 In section \ref{c:summary}, we describe about an overview of ArchHDL.
 In section \ref{c:method}, we propose fast methods on ArchHDL.
 In section \ref{c:evaluation}, we evaluate the simulation speed of ArchHDL in comparison with the various verilog simulators.
