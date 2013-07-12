@@ -18,7 +18,7 @@ as a policy of the fast methods.
 \subsection{データ変更の有無による条件分岐の除去 \label{sss:no_set}}
 \fi
 
-\subsection{Removal of conditional branch due to the presence or absence of data change}
+\subsection{Removal of conditional branch by the presence or absence of data change}
 \label{sss:no_set}
 
 \if0
@@ -138,7 +138,7 @@ The \textit{Update} method of the \textit{reg} class instances is called.
 reg クラスのインスタンスの curr\_ に next\_ の値を代入する処理は
 毎サイクル全 reg クラスのインスタンスで実行されることになる．
 \fi
-If I implement the removal of conditional branch due to the presence or absence of data changes described in \ref{sss:no_set},
+If I implement the removal of conditional branch by the presence or absence of data changes described in Section \ref{sss:no_set},
 the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle in \textit{reg::Update} method.
 
 \if0

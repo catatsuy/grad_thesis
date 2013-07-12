@@ -34,7 +34,7 @@ However, it is not faster than that with VCS which is the fastest in the verilog
 そこで ArchHDL に分岐の削減，メモリ配置の工夫，OpenMP による並列化といった高速化手法を適用する．
 \fi
 In this paper, I aim to further speed up ArchHDL.
-(1) Removal of conditional branching due to the presence or absence of data change,
+(1) Removal of conditional branch by the presence or absence of data change,
 (2) devising a memory allocation and stored as an array value,
 (3) parallelization.
 I propose and implement fast methods of the three.
