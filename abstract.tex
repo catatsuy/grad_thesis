@@ -4,14 +4,15 @@
 このために Verilog HDL などのハードウェア記述言語が用いられることが一般的である．
 \fi
 \parindent=1.8em
-The VLSI chips such as high performance processors or SoC with processor elements are designed in the flow of architectural design,
+The VLSI chips such as high performance processors or SoCs with processor elements are designed in the flow of architectural design,
 logic design, circuit design, and physical design.
 In the architectural design and logical design, Register Transfer Level (RTL) simulation is essential for logical verification.
 Hardware description languages such as Verilog HDL or VHDL are often used for the RTL modeling and simulation.
 \if0
 しかし Verilog HDL によるハードウェアのシミュレーションは速度が遅く，ハードウェア設計を行う上で障害になることがあった．
 \fi
-But the architectural simulation speed of Verilog HDL is slow. It was difficult to design architectural design.
+But the logic simulation speed of Verilog HDL is slow.
+% Because of the slow simulation speed, it is difficult to design VLSI chips.
 
 \if0
 この問題を解決することを目標に C++ 言語上で RTL モデリングを行う新しい言語である ArchHDL が提案された．
@@ -28,25 +29,24 @@ ArchHDL で記述したハードウェアのシミュレーションはオープ
 The architectural simulation speed with ArchHDL is much faster than
 that with Icarus Verilog, which is a verilog simulator of open source.
 It is often faster than VCS of Synopsys, Inc.
-VCS is the fastest in the verilog simulators and a paid software.
+VCS is one of the fastest verilog simulator and a paid software.
 
 \if0
 本論文では，ArchHDL のさらなる高速化を目指す．
 (1)データ変更の有無による条件分岐の除去，(2)値を配列として格納しメモリ配置を工夫，(3)並列化という 3 つの高速化手法を提案し，実装する．
 \fi
-In this paper, I aim to speed up ArchHDL.
-I propose and implement three fast methods as follows.
-(1) Removal of conditional branch by the presence or absence of data change,
-(2) storing as an array value to devise a memory allocation,
-(3) parallelization.
+In this thesis, I aim to speed up the logical simulation with ArchHDL.
+I propose and implement three fast methods as follows:
+(1) removal of conditional branch for data update,
+(2) storing register values to the continuous memory location
+and (3) the parallelization of the execution of multiple instances.
 
 \if0
 マイクロベンチマークである 4096 個のカウンタ回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 5.23 倍高速になった．
 現実的なハードウェアであるステンシル計算回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 1.95 倍高速になった．
 提案手法により今回用いたすべての評価において Synopsys 社の VCS よりも高速にシミュレーションが行えるようになった．
 \fi
-When I evaluated 4096 of the counters circuit as a micro benchmark,
-elapsed time of the proposed methods is 5.23 times faster than that of the original ArchHDL.
-When I evaluated a stencil-computation circuit as a realistic hardware,
-elapsed time of the proposed methods is 1.95 times faster than that of the original ArchHDL.
-The results show that ArchHDL applied the proposed methods can perform faster than VCS in the all evaluations in this paper.
+I elapse the simulation time with 4096 of the counters circuit as a micro benchmark and a stencil-computation circuit as a realistic hardware as an evaluation.
+The evaluation results as the micro benchmark show that the elapsed time of the proposed methods is 5.23 times faster than that of the original ArchHDL.
+The evaluation results as the realistic hardware show that the elapsed time of the proposed methods is 1.95 times faster than that of the original ArchHDL.
+The results show that ArchHDL applied the proposed methods can perform faster than VCS in the all evaluations in this thesis.
