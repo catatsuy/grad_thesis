@@ -104,13 +104,13 @@
 %%
 \DeclareOption{bthesis}{%
     \def\titechtitle{{\LARGE
-        \vspace*{0.8truecm}
+        \vspace*{0.88truecm}
         % \addtolength\topmargin{0.05\textheight}
         \addtolength\topmargin{5zw}
         \vspace{-13mm} % \vspace{-13mm}
-        \begin{center} 東京工業大学工学部\\
+        \begin{center} 東京工業大学工学部\\[-10pt]
         \vspace{7mm}
-        学士論文\\
+        学士論文\\[-10pt]
         \vspace{0mm}
         \ \\
         \fbox{
@@ -120,15 +120,15 @@
         } \\
         \vspace{10mm}
         指導教員\hspace{1zw}\@advisor\hspace{1zw}\@post\\
-        \vspace{8mm}
+        \vspace{3mm}
         \@date\\
-        \vspace{9mm}
+        \vspace{3mm}
         提出者\\
         \vspace{3mm}
         \begin{tabular}{ll}
-            \vspace{2mm}学科 & \@affiliation \\
-            \vspace{2mm}学籍番号 \hspace{3mm} & \@studentid \\
-            \vspace{2mm}氏名 & \@ifundefined{@authorintitle}{\@author}{\@authorintitle} \\
+            学科 & \@affiliation \\
+            学籍番号 \hspace{3mm} & \@studentid \\
+            氏名 & \@ifundefined{@authorintitle}{\@author}{\@authorintitle} \\
         \end{tabular}
         \vspace{-1mm}
         \begin{flushright}
