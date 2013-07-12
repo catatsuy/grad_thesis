@@ -6,13 +6,13 @@
 \if0
 高速化の方針として逐次プログラミングにおける最適化と並列化の両方を考える．
 \fi
-I consider both parallelization and optimization in sequential programming
-as a policy of the fast methods.
+I consider both optimization in sequential programming and parallelization
+as a policy of fast methods.
 
 \if0
 \section{逐次プログラムにおける高速化手法}
 \fi
-\section{The fast methods in sequential program}
+\section{Fast methods in sequential program}
 
 \if0
 \subsection{データ変更の有無による条件分岐の除去 \label{sss:no_set}}
@@ -25,13 +25,13 @@ as a policy of the fast methods.
 \figref{src:reg} に示した実装では，reg クラスのインスタンスの値を更新する方法としてブロッキング代入とノン・ブロッキング代入の 2 つが存在する．
 \fi
 In the implementation shown \figref{src:reg},
-Methods of updating the value of the \textit{reg} class instance are the two non-blocking assignment and blocking assignment.
+ArchHDL gives non-blocking assignment and blocking assignment as methods of updating the value of the \textit{reg} class instance.
 
 \if0
 ブロッキング代入について考える．reg クラスのインスタンスにブロッキング代入が行われた時に curr\_ の値を書き換える．
 \fi
 I consider blocking assignment.
-I rewrite the value of the variable \textit{curr\_} in the \textit{reg} class instance
+The member variable \textit{curr\_} of the \textit{reg} class instance must be assigned to the value
 when the blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
@@ -45,8 +45,8 @@ I consider non-blocking assignment.
 The member variable \textit{set\_} of the \textit{reg} class instance is assigned to true
 and the member variable \textit{next\_} is assigned to the value
 when the non-blocking assignment is carried out to the \textit{reg} class instance.
-Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the member variable \textit{curr\_} in the \textit{Update} function which is a member method of \textit{reg} class.
-It means the value of the register is updated to the new value before the next cycle on the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
+Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the value of the member variable \textit{curr\_} in the \textit{Update} function which is a member method of \textit{reg} class.
+It means the value of the register is updated to the new value before the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
 \figref{src:reg} に示した実装では，
@@ -58,7 +58,7 @@ In the implementation shown \figref{src:reg},
 it is not necessary to perform the process of assignment
 if the value of the \textit{next\_} and \textit{curr\_} of the \textit{reg} class instance are same.
 Therefore the unnecessary assignment is avoided using the variable \textit{set\_}.
-This implementation is more efficient if the \textit{reg} class instance is not updated very frequently.
+This implementation is more efficient if the \textit{reg} class instance is rarely updated.
 
 \if0
 提案手法について述べる．
@@ -69,7 +69,7 @@ This implementation is more efficient if the \textit{reg} class instance is not 
 I describe the proposed method.
 The process of assignment is not performed only when the variable \textit{set\_} is true
 but the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle.
-It eliminates without the overhead of the \textit{if} branch,
+It eliminates without the overhead of the \textit{if} branch.
 I can be expected to speed up if the \textit{reg} class instance is updated frequently.
 
 % SWoPP より追加
@@ -88,7 +88,7 @@ I can be expected to speed up if the \textit{reg} class instance is updated freq
 \figref{src:reg} の実装から set\_ 変数を除いている．
 \fi
 \figref{src:reg_no_set} shows the implementation of the proposed method.
-The implementation of \figref{src:reg} is removed of the variable \textit{set\_}.
+It is removed of the variable \textit{set\_} from the implementation shown \figref{src:reg}.
 
 % 追加ここまで
 
@@ -120,8 +120,8 @@ It denotes \figref{src:class_singleton} from the 44th line to the 46th line.
 The \textit{reg} class instances are painted gray
 and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
 Big frame on the left denotes \textit{registers\_} of \verb`std::vector` in the 18th line of \figref{src:class_singleton}.
-solid arrows represent the assignment.
-dotted arrows represent a pointer reference.
+Solid arrows represent an assignment.
+Dotted arrows represent a pointer reference.
 
 \if0
 ArchHDL ではノン・ブロッキング代入をシミュレーションするために registers\_ の値を上から順に辿り，
@@ -165,7 +165,7 @@ The two overheads of this assignment and function call make the speed of the Arc
 I describe the proposed method.
 \figref{fig:mem_copy} shows the process of the \textit{reg} class instance stored as an array.
 \figref{fig:mem_copy} shows the proposed method.
-That all of the \textit{reg} class instance have the value of the next cycle and the current value is changed into holding each pointer in the proposed method.
+That all of the \textit{reg} class instances have the value of the next cycle and the current value is changed into holding each pointer in the proposed method.
 \if0
 reg クラスのインスタンスが灰色に塗られており，左からクラスのメタデータ，\&next\_, \&curr\_ を表している．
 \&next\_, \&curr\_ は next\_, curr\_ のポインタである．
@@ -178,8 +178,8 @@ and metadata of the class, the \texttt{\&next\_} and the \texttt{\&curr\_} are r
 The \texttt{\&next\_} and the \texttt{\&curr\_} is a pointer of \textit{next\_} and \textit{curr\_}.
 Big frames on the bottom denote the arrays which summarize the value of \textit{next\_} and \textit{curr\_}.
 The next collections and the curr collections is named here.
-solid arrows represent the assignment.
-dotted arrows represent a pointer reference.
+Solid arrows represent an assignment.
+Dotted arrows represent a pointer reference.
 
 \if0
 ArchHDL の実装では次サイクルに移る前に行われる curr\_ に next\_ の値を代入する処理は
