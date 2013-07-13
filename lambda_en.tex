@@ -1,41 +1,68 @@
-The specification of lambda function is defined in the C++ ISO standard called C++11.
-From GCC version 4.5, the lambda function is supported in the C++ standard library.
-
-ArchHDL uses the the lambda function for hardware description.
-In this section, we describe about the C++11 lambda function. to the extent necessary to ArchHDL.
+In ArchHDL, \textit{lambda function} is used for hardware modeling.
+%%to understand the description for ArchHDL.
+%% You may skip this section if you are familiar with this function.
+The specification of lambda function is defined in the C++ ISO standard
+named C++11 and
+lambda function is supported as a C++ standard library from GCC version 4.5
+released in 2010.
+In this section,
+we explain a little about the C++11 lambda function.
 
 \begin{figure}[t]
  \lstinputlisting[language=c++]{src/def_lam.cc.part}
-\caption{An example of C++ program which includes a definition of lambda function.}
- \label{src:def_lambda}
+\caption{A sample C++ program which includes just a definition of lambda function.
+The definition of the lambda function is in the line 2.
+The function takes two int values of x and y as arguments and returns the sum of these arguments.}
+ \label{src:def_lambda1}
 \end{figure}
 
-\figref{src:def_lambda} shows an example of C++ program which includes a lambda function.
-Note that, the program includes only the definition of a lambda function, so it has no meaning.
-The 2nd line of source code is the definition of lambda function which takes two int values as arguments and returns the sum of arguments.
+Simply to say, a lambda function is an anonymous function or
+a function without its name.
+\figref{src:lambda1} shows
+a sample program which has a definition of lambda function.
+%so it has no meaning.
+The definition of the lambda function is in the line 2 of the code.
+The function takes two int values of x and y as arguments
+and returns the sum of these arguments.
+Note that this program includes just a definition of lambda function
+for explanation.
+Therefore, the function in the line 2 has no effect for this program.
+%and nobody uses this function.
 
-The description of lambda function starts from \textit{lambda-introducer} [] \footnote{
-A lambda introducer may contain a \textit{lambda-capture}.
-ArchHDL only uses the option [=], so we skip the details of lambda-capture at here.
-}
-The return type of lambda function is automatically deduced from the return expression.
-In the case of \figref{src:def_lambda} line 2, the return type is deduced as int.
+The description of lambda function starts from \textit{lambda-introducer} []
+and a lambda introducer may contain a \textit{lambda-capture} like ``=''.
+%%ArchHDL only uses the description of ``[=]''.
+Note that a statement start with ``[=]'' is a lambda function.
+%% \footnote{
+%% A lambda introducer may contain a \textit{lambda-capture} like ``=''.
+%% ArchHDL only uses the option [=], so we skip the details of lambda-capture at here.
+%% }.
+The return type of a lambda function is automatically deduced from
+the return expression in compile time.
+In the case of this example, the return type is expected as int.
 
 \begin{figure}[t]
- \lstinputlisting[language=c++]{src/ex_lam.cc}
- \caption{An example of C++ program which includes a definition of lambda function and a usage of it.}
- \label{src:ex_lambda}
+ \lstinputlisting[language=c++]{src/lambda2.cc}
+ \caption{
+A sample C++ program which includes a definition and a use of lambda function.
+Sum is a function object. A lambda function defined in the line 5 is
+assigned to Sum. Sum is used in the line 6 with two integer arguments.
+This program returns a value of 5.}
+ \label{src:lambda2}
 \end{figure}
 
-\figref{src:ex_lambda} shows an example of C++ program using lambda function.
-As the 1st line, we need to include the \textit{functional} standard library to use lambda function.
+\figref{src:lambda2} shows a sample program using lambda function.
+In the line 4 and 5,
+a lambda \texttt{function [=](int x, int y) \{ return x + y; \}} is
+assigned to a function object \textit{Sum}.
+The type of the lambda function is std::function$<$int ()$>$,
+and \textit{Sum} is declared with this type.
+Thus, \textit{Sum} becomes a function which takes two int arguments
+and returns an int value.
 
-In the 6th and 7th line, the lambda function \texttt{[=](int x, int y) \{ return x + y; \}} is assigned to the function object \textit{Sum}.
-The type of the lambda function is \verb`std::function<int ()>`, therefore \textit{Sum} is declared so.
-Thus, \textit{Sum} becomes a function which takes two int arguments and returns a int value.
-
-In the 8th line, the function \textit{Sum} is called.
-The return value of \textit{Sum} is assigned to the variable \textit{c}.
-The variable \textit{a} and the variable \textit{b} which they are defined in the 4th and 5th line, are given to the function \textit{Sum} as arguments.
-
-In ArchHDL, the lambda function is used in the way like shown in the \figref{src:ex_lambda}.
+In the line 6, the function \textit{Sum} is called.
+The return value of \textit{Sum} is assigned to a variable \textit{c}.
+The variable \textit{a} and the variable \textit{b}
+are defined in the line 2 and 3.
+They are two arguments of the function \textit{Sum}.
+This program returns a value of 5 computed by \textit{Sum}.
