@@ -53,11 +53,11 @@ I describe the reason for using different operating systems.
 NC-Verilog and VCS support only RPM-based Linux distributions.
 I use CentOS5.9 which is RPM-based Linux distributions for this evaluation.
 However, the version of GCC includes CentOS5.9 is 4.1.2.
-I describe it in Section \ref{s:lambda} that the version of GCC requires 4.5 or greater for using the lambda function in ArchHDL.
+Section \ref{s:lambda} shows that the version of GCC requires 4.5 or greater for using the lambda function in ArchHDL.
 I also use to evaluate the Ubuntu12.04 satisfying the condition.
 The version of GCC includes Ubuntu12.04 is 4.6.3.
 I use \verb/-O2/ as optimization option of GCC.
-Icarus Verilog runs on both computers.
+Icarus Verilog can run on both computers.
 I use it on Ubuntu12.04 in this evaluation.
 The version of Icarus Verilog includes Ubuntu12.04 is 0.9.5.
 The version of NC-Verilog is 06.20-s004.
@@ -77,7 +77,7 @@ Verilog HDL と ArchHDL のためのハードウェアシミュレーション�
 In the evaluation, I use two micro benchmarks
 and stencil-computation circuit as a benchmark of hardware realistic.
 I have created hardware simulation for ArchHDL and Verilog HDL by myself
-and the output of both the hardware simulation to be same.
+and the outputs of both the hardware simulation are same.
 
 \if0
 評価結果に用いているラベルの名前について述べる．
@@ -89,9 +89,9 @@ and the output of both the hardware simulation to be same.
 \fi
 I describe the name of the labels which are used on the evaluation results.
 Original ArchHDL is named \textbf{ArchHDL}.
-It is named \textbf{NO SET} that I apply removal of the conditional branch to ArchHDL, which is described in Section \ref{sss:no_set}.
-It is named \textbf{MEM MAP} that I apply devising a memory allocation and stored as an array to ArchHDL, which is described in Section \ref{sss:mem_copy}
-It is named \textbf{PARA} that I apply the parallelization to ArchHDL, which is described in Section \ref{ss:parallel}.
+It is named \textbf{NO SET} that I apply removal of the conditional branch for data update, which is described in Section \ref{sss:no_set}.
+It is named \textbf{MEM MAP} that I apply storing register values to the continuous memory location, which is described in Section \ref{sss:mem_copy}
+It is named \textbf{PARA} that I apply the parallelization of the execution of multiple instances, which is described in Section \ref{ss:parallel}.
 
 
 \section{Evaluation by Micro Benchmark}
