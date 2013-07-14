@@ -10,10 +10,10 @@ It realizes an RTL modeling on C++.
 高速化手法として (1)データ変更の有無による条件分岐の除去，(2)値を配列として格納しメモリ配置を工夫，
 (3)並列化手法を提案した．
 \fi
-I propose and implement fast methods of the three.
-(1) Removal of conditional branch by the presence or absence of data change,
-(2) devising a memory allocation and stored as an array value,
-(3) parallelization.
+I propose and implement three fast methods as follows:
+(1) removal of conditional branch for data update,
+(2) storing register values to the continuous memory location
+and (3) the parallelization of the execution of multiple instances.
 
 \if0
 提案手法を実装し，ArchHDL を Icarus Verilog と商用ツールである VCS, NC-Verilog の実行時間と比較した．
@@ -21,9 +21,9 @@ I propose and implement fast methods of the three.
 現実的なハードウェアであるステンシル計算回路を用いた評価では提案手法によりオリジナルの ArchHDL と比較して 1.95 倍高速になった．
 提案手法により今回用いたすべての評価において Synopsys 社の VCS よりも高速にシミュレーションが行えるようになった．
 \fi
-I implement the proposed methods. I compare the elapsed time of ArchHDL with that of Icarus Verilog, NC-Verilog and VCS.
-When I evaluated using 4096 of the counter circuit as a micro benchmark,
-elapsed time of the proposed methods is 5.23 times faster than that of the original ArchHDL.
-When I evaluated using a stencil-computation circuit as a realistic hardware,
-elapsed time of the proposed methods is 1.95 times faster than that of the original ArchHDL.
-The proposed methods can be performed faster than VCS in the all evaluations here.
+I implement the proposed methods.
+I compare the elapsed time of ArchHDL with that of Icarus Verilog, NC-Verilog and VCS.
+I elapse the simulation time with 4096 of the counters circuit as a micro benchmark and a stencil-computation circuit as a realistic hardware as an evaluation.
+The evaluation results as the micro benchmark show that the elapsed time of the proposed methods is 5.23 times faster than that of the original ArchHDL.
+The evaluation results as the realistic hardware show that the elapsed time of the proposed methods is 1.95 times faster than that of the original ArchHDL.
+The results show that ArchHDL applied the proposed methods can perform faster than VCS in the all evaluations in this thesis.
