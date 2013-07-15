@@ -13,7 +13,7 @@ we explain a little about the C++11 lambda function.
 \caption{A sample C++ program which includes just a definition of lambda function.
 The definition of the lambda function is in the line 2.
 The function takes two int values of x and y as arguments and returns the sum of these arguments.}
- \label{src:def_lambda1}
+ \label{src:lambda1}
 \end{figure}
 
 Simply to say, a lambda function is an anonymous function or
@@ -55,7 +55,7 @@ This program returns a value of 5.}
 In the line 4 and 5,
 a lambda \texttt{function [=](int x, int y) \{ return x + y; \}} is
 assigned to a function object \textit{Sum}.
-The type of the lambda function is std::function$<$int ()$>$,
+The type of the lambda function is \verb`std::function<int ()>`,
 and \textit{Sum} is declared with this type.
 Thus, \textit{Sum} becomes a function which takes two int arguments
 and returns an int value.

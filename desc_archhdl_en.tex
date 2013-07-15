@@ -30,22 +30,22 @@ In a \textit{Module child} class, A \textit{Init} function and An \textit{Always
 In the \textit{Init} function, users write the assignment of all wire in a module.
 To realize the continuous assignment in C++, ArchHDL uses the lambda function and defines all wire as a function.
 The description in \textit{Init} function corresponds to the assign statement of Verilog HDL.
-In the line 6 of \figref{src:counter}, the lambda function (\textit{[=]() \{ return counter(); \}}) which returns a value of \textit{reg counter} is assigned to the \textit{wire out}.
+In the line 6 of \figref{src:counter}, the lambda function (\texttt{[=]() \{ return counter(); \}}) which returns a value of \textit{reg counter} is assigned to the \textit{wire out}.
 Note that, the value of the \textit{reg} class object can be get by calling the object as a function.
 Therefore, the function call \textit{counter()} returns the value of \textit{reg counter}.
 This statement equals to the line 6 of \figref{src:counter_v}.
 
 In the \textit{Always} function, users write the assignment of all register in a module.
 In ArchHDL, the assignment of a value to a register is allowed only at the time of a positive edge of a single clock.
-ArchHDL realizes the non-blocking assignment to a register using $<<=$ operator.
-In the ArchHDL library, the $<<=$ operator is overloaded as the non-blocking assignment implementation.
-Therefore, statements in the \textit{Always} function is corresponds to statements in the \textit{always@(posedge clock)} block in Verilog HDL.
+ArchHDL realizes the non-blocking assignment to a register using \verb`<<=` operator.
+In the ArchHDL library, the \verb`<<=` operator is overloaded as the non-blocking assignment implementation.
+Therefore, statements in the \textit{Always} function is corresponds to statements in the \texttt{always@(posedge clock)} block in Verilog HDL.
 In the line 9 of \figref{src:counter}, the \textit{reg counter} is assigned an incremented value of itself.
 This statement equals to the line 8 of \figref{src:counter_v}.
 
 ArchHDL uses the integer type of C++ as a data type of registers and wires.
 In the example shown in \figref{src:counter}, we used \textit{unsigned int} as the data type for the register and the wire.
-To implement the 8-bit counter in ArchHDL, the value of \textit{unsigned int} is masked by 0xff as in the line 9 of \figref{src:counter}.
+To implement the 8-bit counter in ArchHDL, the value of \textit{unsigned int} is masked by \texttt{0xff} as in the line 9 of \figref{src:counter}.
 
 
 \section{Test bench description of ArchHDL}
@@ -187,5 +187,5 @@ This class inherits \textit{ModuleInterface} class.
 We use \textit{Module} class as the parent class to describe a module in ArchHDL.
 
 The constructor of \textit{Module} class gives the pointer of itself to \textit{Singleton} class.
-The \textit{Init} function and the \textit{Always} function are declared as virtual functions in \textit{ModuleInterface}.
+The \textit{Init} function and the \textit{Always} function are declared as virtual functions in \textit{Module\-Interface}.
 Therefore, the empty \textit{Init} function and the empty \textit{Always} function are also defined in \textit{Module} class.
