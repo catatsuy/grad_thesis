@@ -6,7 +6,7 @@
 \if0
 高速化の方針として逐次プログラミングにおける最適化と並列化の両方を考える．
 \fi
-I consider both optimization in sequential programming and parallelization
+I consider both optimizations in sequential programming and parallelization
 as a policy of fast methods.
 
 \if0
@@ -31,7 +31,7 @@ ArchHDL gives non-blocking assignment and blocking assignment as methods of upda
 \fi
 I consider blocking assignment.
 The member variable \textit{curr\_} of the \textit{reg} class instance must be assigned to the value
-when the blocking assignment is carried out to the \textit{reg} class instance.
+if the blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
 一方でノン・ブロッキング代入について考える．
@@ -43,9 +43,9 @@ reg クラスのインスタンスにノン・ブロッキング代入が行わ�
 I consider non-blocking assignment.
 The member variable \textit{set\_} of the \textit{reg} class instance is assigned to true
 and the member variable \textit{next\_} is assigned to the value
-when the non-blocking assignment is carried out to the \textit{reg} class instance.
+if the non-blocking assignment is carried out to the \textit{reg} class instance.
 Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the value of the member variable \textit{curr\_} in the \textit{Update} function which is a member method of \textit{reg} class.
-It means the value of the register is updated to the new value before the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
+It shows the value of the register is updated to the new value before the only cycle which is the non-blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
 \figref{src:reg} に示した実装では，
@@ -55,9 +55,9 @@ reg クラスのインスタンスの更新頻度が低い回路であればこ�
 \fi
 In the implementation shown \figref{src:reg},
 it is not necessary to perform the process of assignment
-if the value of the \textit{next\_} and \textit{curr\_} of the \textit{reg} class instance are same.
+if the values of the \textit{next\_} and \textit{curr\_} of the \textit{reg} class instance are same.
 Therefore the unnecessary assignment is avoided using the variable \textit{set\_}.
-This implementation is more efficient if the \textit{reg} class instance is rarely updated.
+This implementation may be effective if the \textit{reg} class instance is rarely updated.
 
 \if0
 提案手法について述べる．
@@ -66,10 +66,9 @@ This implementation is more efficient if the \textit{reg} class instance is rare
 こうすることによって分岐のオーバーヘッドが無くなるため，ノン・ブロッキング代入が頻繁に行われる回路で速度向上が期待できる．
 \fi
 I describe the proposed method.
-The process of assignment is not performed only when the variable \textit{set\_} is true
-but the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle.
+The value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle.
 It eliminates without the overhead of the \textit{if} branch.
-I can be expected to speed up if the \textit{reg} class instance is updated frequently.
+This implementation is effective if the \textit{reg} class instance is updated frequently.
 
 % SWoPP より追加
 
