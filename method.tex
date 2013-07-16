@@ -117,7 +117,7 @@ reg クラスのインスタンスが灰色に塗られており，左からク�
 It denotes \figref{src:class_singleton} in the line from 44 to 46.
 The \textit{reg} class instances are painted gray
 and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
-Big frame on the left denotes \textit{registers\_} of \verb`std::vector` in the line 18 of \figref{src:class_singleton}.
+The big frame on the left denotes \textit{registers\_} using \verb`std::vector` in the line 18 of \figref{src:class_singleton}.
 Solid arrows represent an assignment.
 Dotted arrows represent a pointer reference.
 
@@ -136,7 +136,7 @@ The \textit{Update} method of the \textit{reg} class instances is called.
 reg クラスのインスタンスの curr\_ に next\_ の値を代入する処理は
 毎サイクル全 reg クラスのインスタンスで実行されることになる．
 \fi
-If I implement the removal of conditional branch by the presence or absence of data changes described in Section \ref{sss:no_set},
+If I implement the removal of the conditional branch for data update, which is shown in Section \ref{sss:no_set},
 the value of the \textit{next\_} is always assigned to the variable \textit{curr\_} every cycle in \textit{reg::Update} method.
 
 \if0
@@ -150,7 +150,7 @@ The two overheads of this assignment and function call make the speed of the Arc
 \if0
  \caption{値を配列として格納しメモリ配置を工夫した reg クラスのインスタンスの処理の様子}
 \fi
- \caption{The process of the \textit{reg} class instance stored as an array}
+ \caption{The values of the \textit{reg} class instances stored as an array}
  \label{fig:mem_copy}
 \end{figure}
 
@@ -161,9 +161,9 @@ The two overheads of this assignment and function call make the speed of the Arc
 提案手法では全 reg クラスのインスタンスは現在の値と次サイクルの値の実体は持たず，ポインタを保持するように変更している．
 \fi
 I describe the proposed method.
-\figref{fig:mem_copy} shows the process of the \textit{reg} class instance stored as an array.
 \figref{fig:mem_copy} shows the proposed method.
-That all of the \textit{reg} class instances have the value of the next cycle and the current value is changed into holding each pointer in the proposed method.
+\figref{fig:mem_copy} shows the values of the \textit{reg} class instances stored as an array.
+It is changed into holding each pointer that all of the \textit{reg} class instances have the value of the next cycle and the value of the current cycle in the proposed method.
 \if0
 reg クラスのインスタンスが灰色に塗られており，左からクラスのメタデータ，\&next\_, \&curr\_ を表している．
 \&next\_, \&curr\_ は next\_, curr\_ のポインタである．
@@ -173,9 +173,9 @@ reg クラスのインスタンスが灰色に塗られており，左からク�
 \fi
 The \textit{reg} class instances are painted gray
 and metadata of the class, the \texttt{\&next\_} and the \texttt{\&curr\_} are represented from the left.
-The \texttt{\&next\_} and the \texttt{\&curr\_} is a pointer of \textit{next\_} and \textit{curr\_}.
-Big frames on the bottom denote the arrays which summarize the value of \textit{next\_} and \textit{curr\_}.
-The next collections and the curr collections is named here.
+The \texttt{\&next\_} and the \texttt{\&curr\_} are pointers of the value of \textit{next\_} and \textit{curr\_}.
+The two big frames on the bottom denote the arrays gathered the value of \textit{next\_} and \textit{curr\_}.
+They are named \textit{next collections} and \textit{curr collections} here.
 Solid arrows represent an assignment.
 Dotted arrows represent a pointer reference.
 
@@ -187,15 +187,15 @@ reg クラスのインスタンスが存在するアドレスを調べる必要�
 さらに reg::Update() の関数呼び出しが不要となり，関数呼び出しのオーバーヘッドもなくなる．
 これらの理由により高速化が期待できる．
 \fi
-It is necessary to examine the address the \textit{reg} class instances exist in the implementation of original ArchHDL
-before the process of assigning the value of the \textit{next\_} to the variable \textit{curr\_} is executed before moving the next cycle.
-But if the implementation of \textit{reg} class is devised a memory allocation and stored as an array, \textit{Update} method is a simple assignment as shown in \figref{fig:mem_copy}.
+It is necessary to examine the address to which the \textit{reg} class instances are allocated in the implementation of original ArchHDL
+before the process of assigning the value of the \textit{next\_} to the variable \textit{curr\_} is executed before the next cycle.
+But if the implementation of the \textit{reg} class is the removal of the conditional branch for data update, \textit{Update} method is a simple assignment as shown in \figref{fig:mem_copy}.
 Memory access can be carried out continuously
 because the memory allocation of the variable \textit{next\_} and \textit{curr\_} is continuous.
 The memory allocation is discrete in the implementation of original ArchHDL.
 The overhead of a function call is eliminated
 because it is unnecessary to call the \textit{Update} method.
-In the above reasons, speeding up can be expected.
+In the above reasoning, this implementation is effective.
 
 \if0
 提案手法の実装について述べる．
@@ -206,11 +206,10 @@ next collections, curr collections として 2 つの十分大きな \verb/unsig
 これまで reg クラスの全インスタンスの reg::Update() メソッドを呼び出していたところを next\_ collections から curr\_ collections の値コピーに変更する．
 \fi
 I describe the implementation of the proposed method.
-2 large arrays of the type of \verb/unsigned int/ are allocated as the next collections and the curr collections.
-Depending on the type of the template arguments, the constructor of \textit{reg} class allocates each region to the next collections and the curr collections.
-The allocated region is a multiple of 4 bytes to speed up reference.
-The addresses of the variable \textit{next\_} and \textit{curr\_} are acquired and
-the \texttt{\&next\_} and the \texttt{\&curr\_} hold them.
+Two large arrays of the type of \verb/unsigned int/ are allocated as the \textit{next collections} and the \textit{curr collections}.
+The constructor of the \textit{reg} class allocates each region to the \textit{next collections} and the \textit{curr collections} depending on the type of the template arguments.
+The allocated region is multiples of 4 bytes to speed up reference.
+The \texttt{\&next\_} and the \texttt{\&curr\_} are the addresses of the variable \textit{next\_} and \textit{curr\_}.
 The \texttt{reg::Update} method is not called
 but the next collections are assigned to the curr collections.
 
