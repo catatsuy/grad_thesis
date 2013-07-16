@@ -272,16 +272,16 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 \if0
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
 \fi
-I have been considering the fast methods in sequential programming,
-however I consider the speed up by parallelization in this section.
+I have been considering the fast methods in sequential programming.
+However, I consider the speed up by parallelization in this section.
 
 \if0
 \figref{src:class_singleton} の 40 行〜 47 行に示すように
 毎サイクル，Module クラスと reg クラスの全インスタンスの Module::Always() メソッドと reg::Update() メソッドが呼び出されている．
 \fi
 As \figref{src:class_singleton} is shown in the line from 40 to 47,
-all of the \textit{Module} and \textit{reg} class instances
-call \textit{Module::Always} and \textit{reg::Update} method every cycle.
+each of the \textit{Module} and \textit{reg} class instances
+calls \textit{Module::Always} and \textit{reg::Update} method every cycle.
 
 \if0
 \figref{src:class_singleton} の41行〜43行で実行される Module::Always() メソッドはユーザが自由に記述できる．
@@ -292,8 +292,8 @@ call \textit{Module::Always} and \textit{reg::Update} method every cycle.
 \fi
 \textit{Module::Always} method can be described freely by the user in the line from 41 to 43 in \figref{src:class_singleton}.
 Therefore there is no guarantee that \textit{Module::Always} method can be executed separately for each of the \textit{Module} class instances.
-However, it is assumed that it can execute independently here.
-It is a special challenge for the future conditions.
+However, it is assumed that it can execute independently in this thesis.
+It is the research task from now on.
 It is possible to parallelize the execution of the \textit{Module::Always} method.
 
 \if0
@@ -309,15 +309,15 @@ It is possible to parallelize the execution of the \textit{reg::Update} method.
 提案手法について述べる．この部分を並列化する．並列化には OpenMP~\cite{openmp} を用いる．
 \fi
 I describe the proposed method.
-I parallelize \textit{Module::Always} and \textit{reg::Update} method in the line from 41 to 43 in \figref{src:class_singleton}.
-I use OpenMP~\cite{openmp} to parallelize.
+I parallelize \textit{Module::Always} and \textit{reg::Update} method in the line from 41 to 46 of \figref{src:class_singleton}.
+I use OpenMP~\cite{openmp} to parallelize it.
 
 \begin{figure}[t]
  \lstinputlisting[language=c++]{src/exec_openmp.cc}
 \if0
  \caption{Exec メソッド内の for 文を OpenMP で並列化したプログラム}
 \fi
- \caption{The source code which is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads}
+ \caption{The source code is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads.}
  \label{src:exec_openmp}
 \end{figure}
 
@@ -327,11 +327,11 @@ I use OpenMP~\cite{openmp} to parallelize.
 今回は 8 をスレッド数に指定している．この数字は環境によって変えることができる．
 4 行目と 8 行目は for 文の実行を並列化する OpenMP 指示文である．
 \fi
-\figref{src:exec_openmp} is an improvement on \figref{src:class_singleton} in the line from 40 to 47.
-\figref{src:exec_openmp} shows the source code which is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads.
+\figref{src:exec_openmp} shows that the source code is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads.
+\figref{src:exec_openmp} shows the line from 40 to 47 of \figref{src:class_singleton} is parallelized.
 The number of threads can be changed by the environment.
-The line 2 of \figref{src:exec_openmp} give parallelization in 8 threads.
-The line 4 and the line 8 are OpenMP directives to parallelize the execution of the \textit{for} statement.
+The line 2 of \figref{src:exec_openmp} gives parallelization in 8 threads.
+The line 4 and the line 8 are OpenMP directives to parallelize the execution of the \textit{for} statements.
 
 \if0
 一般に，並列化を行う場合は各スレッドに対して均等に負荷を与えることが重要である．
@@ -339,23 +339,23 @@ OpenMP では for 文の負荷を分散するスケジュール方法として�
 一般に，スケジュール方法に dynamic を指定した場合，各スレッドに割り当てられる負荷が均等に近くなるメリットはあるが，オーバーヘッドが大きいデメリットがある．
 ArchHDL により記述されたハードウェア記述では各モジュールと各レジスタの負荷が大幅に変わらないのであれば，static を指定した方が効率が良いと考えられる．
 \fi
-Generally, it is important that parallelization divide the task equally to each thread.
+Generally, it is important for parallelization to assign the tasks equally to each thread.
 Several methods such as \textit{static} to determine statically
 and \textit{dynamic} to determine dynamic exist
-as a way to balance the load of the \textit{for} statement in OpenMP.
+as a way to balance the burden of the \textit{for} statement in OpenMP.
 If you specify the \textit{dynamic} as a way to schedule,
-it has an advantage as a load assigned to each thread is almost equal
-but a disadvantage as large overhead.
-If load of each register and each module is not very difference in the hardware description in ArchHDL,
-it is considered desirable to specify \textit{static}.
+it has the advantage that the tasks is assigned to each thread almost equally.
+But It has the disadvantage of large overhead.
+If each of the tasks of each register and each module is not very different in the hardware description with ArchHDL,
+it is almost effective to specify \textit{static}.
 
 \if0
 他にも OpenMP にはオプションとしてチャンクサイズを指定できる．
 スケジュール方法を static にし，チャンクサイズを指定しなければ，チャンクサイズはループの反復数をスレッド数で割った商とほぼ同じ値になる．
 \fi
-The chunk size can be specified as an option of the OpenMP.
-The chunk size is similar to a value dividing the number of loop iterations by the number of threads
-if you specify the \textit{static} as a way to schedule and no chunk size.
+The chunk size can be specified as the option of the OpenMP.
+If you specify the \textit{static} as a way to schedule and no chunk size,
+the chunk size is similar to a value dividing the number of loop iterations by the number of threads.
 
 \if0
 今回の評価ではスケジュール方法は static でチャンクサイズは指定しないデフォルトの設定で行う．
