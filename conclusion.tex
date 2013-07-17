@@ -2,15 +2,14 @@
 ハードウェアの RTL モデリングのための新しい言語として提案している ArchHDL の高速化手法を提案し，実装し，評価した．
 ArchHDL ではハードウェアのレジスタを変数，ワイヤを関数として扱うことで，C++ で RTL モデリングを実現する．
 \fi
-I propose, implement and evaluate the fast methods of ArchHDL which we propose as a new language for hardware RTL modeling.
-ArchHDL treats registers as variables and wires as functions.
-It realizes an RTL modeling on C++.
+I propose, implement and evaluate the methods for high speed simulation of ArchHDL, which is proposed as a new language for hardware RTL modeling.
+ArchHDL treats registers as variables and wires as functions, which realizes an RTL modeling on C++.
 
 \if0
 高速化手法として (1)データ変更の有無による条件分岐の除去，(2)値を配列として格納しメモリ配置を工夫，
 (3)並列化手法を提案した．
 \fi
-I propose and implement three fast methods as follows:
+The three methods I propose and implement in this thesis are as follows:
 (1) removal of the conditional branch for data update,
 (2) storing register values to the continuous memory location
 and (3) the parallelization of the execution of multiple instances.
