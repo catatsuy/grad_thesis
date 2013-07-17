@@ -1,13 +1,13 @@
 \if0
 本章では ArchHDL での論理シミュレーションの実行時間を評価し，Icarus Verilog, NC-Verilog, VCS での論理シミュレーションの実行時間と比較する．
 \fi
-In this chapter, I evaluate the elapsed time of logic simulation in ArchHDL and it is compared with that of logic simulation in Icarus Verilog, NC-Verilog and VCS.
+In this chapter, I evaluate the elapsed time of logic simulation with ArchHDL and it is compared with that of logic simulation with Icarus Verilog, NC-Verilog and VCS.
 
 \begin{table}[t]
 \if0
  \caption{実行環境}
 \fi
- \caption{Simulation environment}
+ \caption{The simulation environment}
  \label{table:exec_env}
  \begin{center}
   \begin{tabular}{l|c|c} \hline
@@ -30,9 +30,8 @@ CPU，メモリなどのハードウェアの仕様は同一であるがソフ�
 \fi
 \tabref{table:exec_env} shows the simulation environment.
 I use the two computers of the same specification for the evaluation.
-I use to evaluate Icarus Verilog and ArchHDL
-One computer is used to elapse the simulation time with Icarus Verilog and ArchHDL.
-The other is used to elapse that with NC-Verilog and VCS.
+One computer is used to evaluate the simulation time with Icarus Verilog and ArchHDL.
+The other is used to evaluate that with NC-Verilog and VCS.
 The two computers are the same specification such as hardware, CPU, memory and so on.
 However, I use different operating systems due to the limitations of the software.
 
@@ -54,8 +53,7 @@ NC-Verilog and VCS support only RPM-based Linux distributions.
 I use CentOS5.9 which is RPM-based Linux distributions for this evaluation.
 However, the version of GCC includes CentOS5.9 is 4.1.2.
 Section \ref{s:lambda} shows that the version of GCC requires 4.5 or greater for using the lambda function in ArchHDL.
-I also use to evaluate the Ubuntu12.04 satisfying the condition.
-The version of GCC includes Ubuntu12.04 is 4.6.3.
+I also use to evaluate the Ubuntu12.04 because the version of GCC includes Ubuntu12.04 is 4.6.3.
 I use \verb/-O2/ as optimization option of GCC.
 Icarus Verilog can run on both computers.
 I use it on Ubuntu12.04 in this evaluation.
@@ -67,7 +65,7 @@ The version of VCS is vcsC-2009.06.
 今回用いる計算機の CPU の物理コアは 4 コアであるため， OpenMP による並列化はスレッド数を 8 個にして評価する．
 \fi
 Because physical cores of the CPU of the computers are 4 cores for this evaluation,
-I evaluate the parallelization with OpenMP in 8 threads
+I evaluate the parallelization with OpenMP in 8 threads.
 
 \if0
 評価では，2 つのマイクロベンチマークと，現実的なハードウェアのベンチマークとしてステンシル計算回路\cite{koba:stencil}を用いる．
@@ -89,9 +87,9 @@ and the outputs of both the hardware simulation are same.
 \fi
 I describe the name of the labels which are used on the evaluation results.
 Original ArchHDL is named \textbf{ArchHDL}.
-It is named \textbf{NO SET} that I apply removal of the conditional branch for data update, which is described in Section \ref{sss:no_set}.
-It is named \textbf{MEM MAP} that I apply storing register values to the continuous memory location, which is described in Section \ref{sss:mem_copy}
-It is named \textbf{PARA} that I apply the parallelization of the execution of multiple instances, which is described in Section \ref{ss:parallel}.
+It is named \textbf{NO SET} that I apply removal of the conditional branch for data update to ArchHDL, which is described in Section \ref{sss:no_set}.
+It is named \textbf{MEM MAP} that I apply storing register values to the continuous memory location to ArchHDL, which is described in Section \ref{sss:mem_copy}.
+It is named \textbf{PARA} that I apply the parallelization of the execution of multiple instances to ArchHDL, which is described in Section \ref{ss:parallel}.
 
 
 \section{Evaluation by Micro Benchmark}
@@ -99,7 +97,7 @@ It is named \textbf{PARA} that I apply the parallelization of the execution of m
 \if0
 マイクロベンチマークとしてカウンタ回路と XORSHIFT による乱数生成回路を用いる．
 \fi
-I elapse the simulation time with the counter circuits and the random number generator circuits by XORSHIFT RNG as micro benchmarks.
+I evaluate the simulation time with the counter circuits and the random number generator circuits by XORSHIFT RNG as micro benchmarks.
 
 \begin{figure}[tb]
  \lstinputlisting[language=c++]{src/xorshift_alg.cc}
@@ -136,14 +134,14 @@ XORSHIFT RNG use only the \textit{exclusive or} and a \textit{bit shifted} to ge
 \figref{fig:counter4096} に 4096 個のカウンタ回路の実行時間を Icarus Verilog と比較した速度向上比を示す．
 縦軸は Icarus Verilog での実行時間を 1 とした速度向上比を示している．
 \fi
-\figref{fig:counter4096} shows speed up ratio compared with the elapsed time of 4096 of the counter circuit with Icarus Verilog.
-The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
+\figref{fig:counter4096} shows the speed up ratio compared with the elapsed time of 4096 of the counter circuit with Icarus Verilog.
+The speed up ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 
 \if0
 ArchHDL は商用の NC-Verilog, VCS と比較してもかなり高速である．
 \textbf{MEM MAP + PARA} の論理シミュレーション実行時間は NC-Verilog の 58.8 倍，VCS の 56.7 倍高速である．
 \fi
-The simulation time of ArchHDL is much faster that that of NC-Verilog and VCS.
+The simulation time of ArchHDL is much faster than that of NC-Verilog and VCS.
 The evaluation result shows that the elapsed time of \textbf{MEM MAP + PARA} is 58.8 times faster than that of NC-Verilog and 56.7 times faster than that of VCS.
 
 \if0
@@ -180,7 +178,7 @@ The number of counters is denoted in horizontal axis.
 \textbf{PARA} より \textbf{MEM MAP + PARA} の方が常に高速であるので今回提案している逐次処理での高速化手法は並列化を行った場合でも効果が出ている．
 カウンタの個数はハードウェアの規模とみなせるため，並列化が有効なのはある程度規模の大きい回路であると言える．
 \fi
-Speed up ratio compared to Icarus Verilog is almost unchanged if you change the number of the counters because \textbf{MEM MAP} is executed in sequential program.
+The speed up ratio compared to Icarus Verilog is almost unchanged if you change the number of the counters because \textbf{MEM MAP} is executed in sequential program.
 The elapsed time of \textbf{PARA} and \textbf{MEM MAP + PARA} which are executed in parallel is faster than that of \textbf{MEM MAP} if the number of counters is 1024 or more.
 The proposed methods in sequential program are effective in parallel
 because the simulation time of \textbf{MEM MAP + PARA} is always faster than that of \textbf{PARA}.
@@ -255,7 +253,7 @@ The simulation time of \textbf{MEM MAP + PARA} is 2.78 times faster than that of
 縦軸は Icarus Verilog と比較したそれぞれの速度向上比である．
 \fi
 \figref{fig:stencil} shows speed up ratio compared with the elapsed time of a stencil-computation circuit with Icarus Verilog.
-The Speedup ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
+The speed up ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 
 \if0
 オリジナルの ArchHDL は商用の NC-Verilog より高速であったが，同じく商用の VCS はオリジナルの ArchHDL と \textbf{NO SET} より高速である．
