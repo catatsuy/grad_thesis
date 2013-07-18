@@ -22,8 +22,15 @@ and (3) the parallelization of the execution of multiple instances.
 \fi
 In the proposed methods,
 I compare the elapsed time of ArchHDL with that of Icarus Verilog, NC-Verilog and VCS
-and evaluate the simulation time by use of 4096 of the counters circuit as a micro benchmark and a stencil-computation circuit as a realistic hardware.
+and evaluate the simulation time by using the hardware descriptions of 4096 of the counters circuit and a random number generator circuits by XORSHIFT RNG as a micro benchmark and a stencil-computation circuit as a realistic hardware.
+
+With 4096 of the counters circuit, the elapsed time of ArchHDL with the proposed methods is 58.8 times faster than that of NC-Verilog and 56.7 times faster than that of VCS.
+With the random number generator circuits by XORSHIFT RNG, it is 32.2 times faster than that of NC-Verilog and 11.3 times faster than that of VCS.
+With a stencil-computation circuit, it is 2.82 times faster than that of NC-Verilog and 1.83 times faster than that of VCS.
+
 With 4096 of the counters circuit, the elapsed time of ArchHDL with the proposed methods is 5.23 times faster than that of the original ArchHDL.
-And with a stencil-computation circuit, it is 1.95 times faster.
+With the random number generator circuits by XORSHIFT RNG, it is 2.78 times faster.
+With a stencil-computation circuit, it is 1.95 times faster.
+
 
 These results show that ArchHDL applied the three proposed methods can perform faster than VCS in all evaluations in this thesis.
