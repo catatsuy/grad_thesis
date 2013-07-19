@@ -205,8 +205,8 @@ next collections, curr collections として 2 つの十分大きな \verb/unsig
 確保された next\_ と curr\_ のアドレスを取得し，インスタンス内の \&next\_, \&curr\_ がそれを保持する．
 これまで reg クラスの全インスタンスの reg::Update() メソッドを呼び出していたところを next\_ collections から curr\_ collections の値コピーに変更する．
 \fi
-I describe the implementation of the proposed method.
-Two large arrays of the type of \verb/unsigned int/ are allocated as the \textit{next collections} and the \textit{curr collections}.
+As to the implementation of the proposed method,
+two large arrays of the type of \verb/unsigned int/ are allocated as the \textit{next collections} and the \textit{curr collections}.
 The constructor of the \textit{reg} class allocates each region to the \textit{next collections} and the \textit{curr collections} depending on the type of the template arguments.
 The allocated region is multiples of 4 bytes to speed up reference.
 The \texttt{\&next\_} and the \texttt{\&curr\_} are the addresses of the variable \textit{next\_} and \textit{curr\_}.
@@ -272,8 +272,8 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 \if0
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
 \fi
-I have considered the methods in sequential programming.
-However, I consider the speed up by parallelization in this section.
+I have proposed the methods with sequential programming.
+I propose the method with parallelization in this section.
 
 \if0
 \figref{src:class_singleton} の 40 行〜 47 行に示すように
@@ -308,7 +308,7 @@ It is possible to parallelize the execution of the \textit{reg::Update} method.
 \figref{src:class_singleton} の41行〜47行に示している Module クラスと reg クラスの全インスタンスの Module::Always() メソッドと reg::Update() メソッドの実行は並列化が可能である．
 提案手法について述べる．この部分を並列化する．並列化には OpenMP~\cite{openmp} を用いる．
 \fi
-I describe the proposed method.
+In my proposed method,
 I parallelize \textit{Module::Always} and \textit{reg::Update} method in the line from 41 to 46 of \figref{src:class_singleton}.
 I use OpenMP~\cite{openmp} to parallelize it.
 
