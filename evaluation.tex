@@ -168,7 +168,7 @@ The elapsed time of \textbf{MEM MAP + PARA} is 5.23 times faster than that of th
 縦軸は Icarus Verilog での実行時間を 1 とした速度向上比を示している．
 横軸はカウンタの個数である．
 \fi
-\figref{fig:counter_con} shows the speed up ratio compared with the elapsed time of the counter circuits with Icarus Verilog in ArchHDL applying the method and OpenMP.
+\figref{fig:counter_con} shows the speed up ratio compared with the elapsed time of the counter circuits with Icarus Verilog in ArchHDL applying the methods and OpenMP.
 The speed up ratio as elapsed time in Icarus Verilog is 1 is denoted in the vertical axis.
 The number of counters is denoted in horizontal axis.
 
@@ -180,7 +180,7 @@ The number of counters is denoted in horizontal axis.
 \fi
 The speed up ratio compared to Icarus Verilog is almost unchanged if you change the number of the counters because \textbf{MEM MAP} is executed in sequential program.
 The elapsed time of \textbf{PARA} and \textbf{MEM MAP + PARA} which are executed in parallel is faster than that of \textbf{MEM MAP} if the number of counters is 1024 or more.
-The proposed methods in sequential program are effective in parallel
+The proposed methods with sequential program are effective in parallel
 because the simulation time of \textbf{MEM MAP + PARA} is always faster than that of \textbf{PARA}.
 Because the number of counters can be regarded as the scale of hardware, the parallelization is effective if the hardware is large-scale.
 
