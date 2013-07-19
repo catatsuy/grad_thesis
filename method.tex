@@ -41,11 +41,11 @@ reg クラスのインスタンスにノン・ブロッキング代入が行わ�
 その reg クラスのインスタンスの値を次サイクルに移る前に新しい値に更新することを意味する．
 \fi
 On the other hand, as to non-blocking assignment,
-the member variable \textit{set\_} of the \textit{reg} class instance is assigned to true
+the member variable \textit{set\_} of the \textit{reg} class instance is copied to true
 and the member variable \textit{next\_} is assigned to the value
 if the non-blocking assignment is carried out to the \textit{reg} class instance.
-Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is assigned to the value of the member variable \textit{curr\_} in the \textit{Update} method, which is a member method of \textit{reg} class.
-It shows the value of the register is updated to the new value before the only cycle in which the non-blocking assignment is carried out to the \textit{reg} class instance.
+Only when the member variable \textit{set\_} is true, the member variable \textit{next\_} is copied to the value of the member variable \textit{curr\_} in the \textit{Update} method, which is a member method of \textit{reg} class.
+It shows the value of the register is updated to the new value before the cycle in which the non-blocking assignment is carried out to the \textit{reg} class instance.
 
 \if0
 \figref{src:reg} に示した実装では，
@@ -118,7 +118,7 @@ It denotes \figref{src:class_singleton} in the line from 44 to 46.
 The \textit{reg} class instances are painted gray
 and metadata of the class, the variable \textit{next\_} and the variable \textit{curr\_} are represented from the left.
 The big frame on the left denotes \textit{registers\_} using \verb`std::vector` in the line 18 of \figref{src:class_singleton}.
-Solid arrows represent an assignment.
+Solid arrows represent a copy.
 Dotted arrows represent a pointer reference.
 
 \if0
@@ -128,8 +128,8 @@ reg クラスの各インスタンスのポインタを取得する．
 \fi
 To simulate the non-blocking assignment in ArchHDL,
 it follows the values of the \textit{registers\_}
-and obtains a pointer to the \textit{reg} class instances.
-The \textit{Update} method of the \textit{reg} class instances is called.
+and obtains a pointer to the \textit{reg} class instances
+and the \textit{Update} method of the \textit{reg} class instances is called.
 
 \if0
 \ref{sss:no_set} 節で述べたデータ変更の有無による条件分岐の除去を行うと reg::Update() メソッド内で行なっている
@@ -160,7 +160,6 @@ The two overheads of this assignment and function call make the speed of the Arc
 \figref{fig:mem_copy} は提案手法である．
 提案手法では全 reg クラスのインスタンスは現在の値と次サイクルの値の実体は持たず，ポインタを保持するように変更している．
 \fi
-In my proposed method,
 \figref{fig:mem_copy} shows the proposed method.
 \figref{fig:mem_copy} shows the values of the \textit{reg} class instances stored as an array.
 It is changed into holding each pointer that all of the \textit{reg} class instances have the value of the next cycle and the value of the current cycle in the proposed method.
@@ -211,7 +210,7 @@ The constructor of the \textit{reg} class allocates each region to the \textit{n
 The allocated region is multiples of 4 bytes to speed up reference.
 The \texttt{\&next\_} and the \texttt{\&curr\_} are the addresses of the variable \textit{next\_} and \textit{curr\_}.
 The \texttt{reg::Update} method is not called
-but the next collections are assigned to the curr collections.
+but the next collections are copied to the curr collections.
 
 
 \if0
@@ -273,13 +272,13 @@ reg クラスのインスタンスへ常に書き込みが行われるカウン�
 これまで逐次プログラミングにおける高速化を考えてきたが，本節では並列化による高速化について考える．
 \fi
 I have proposed the methods with sequential programming.
-I propose the method with parallelization in this section.
+I propose the parallelization of the execution of multiple instances in this section.
 
 \if0
 \figref{src:class_singleton} の 40 行〜 47 行に示すように
 毎サイクル，Module クラスと reg クラスの全インスタンスの Module::Always() メソッドと reg::Update() メソッドが呼び出されている．
 \fi
-As \figref{src:class_singleton} is shown in the line from 40 to 47,
+As shown from 40 to 47 lines in \figref{src:class_singleton},
 each of the \textit{Module} and \textit{reg} class instances
 calls \textit{Module::Always} and \textit{reg::Update} method every cycle.
 
@@ -293,7 +292,7 @@ calls \textit{Module::Always} and \textit{reg::Update} method every cycle.
 \textit{Module::Always} method can be described freely by the user in the line from 41 to 43 in \figref{src:class_singleton}.
 Therefore there is no guarantee that \textit{Module::Always} method can be executed separately for each of the \textit{Module} class instances.
 However, it is assumed that it can execute independently in this thesis.
-It is the research task from now on.
+Its proof is the research task from now on.
 It is possible to parallelize the execution of the \textit{Module::Always} method.
 
 \if0
@@ -328,9 +327,9 @@ I use OpenMP~\cite{openmp} to parallelize it.
 4 行目と 8 行目は for 文の実行を並列化する OpenMP 指示文である．
 \fi
 \figref{src:exec_openmp} shows that the source code is parallelized in the \textit{for} statements of \textit{Exec} method with OpenMP in 8 threads.
-\figref{src:exec_openmp} shows the line from 40 to 47 of \figref{src:class_singleton} is parallelized.
+\figref{src:exec_openmp} shows parallelized code of the line from 40 to 47 in \figref{src:class_singleton}.
 The number of threads can be changed by the environment.
-The line 2 of \figref{src:exec_openmp} gives parallelization in 8 threads.
+The line 2 of \figref{src:exec_openmp} shows parallelization in 8 threads.
 The line 4 and the line 8 are OpenMP directives to parallelize the execution of the \textit{for} statements.
 
 \if0
@@ -344,9 +343,9 @@ Several methods such as \textit{static} to determine statically
 and \textit{dynamic} to determine dynamic exist
 as a way to balance the burden of the \textit{for} statement in OpenMP.
 If you specify the \textit{dynamic} as a way to schedule,
-it has the advantage that the tasks is assigned to each thread almost equally.
+it has the advantage that the tasks are assigned to each thread almost equally.
 But It has the disadvantage of large overhead.
-If each of the tasks of each register and each module is not very different in the hardware description with ArchHDL,
+If each of the tasks of each register and each module is not very different from the hardware description with ArchHDL,
 it is almost effective to specify \textit{static}.
 
 \if0
